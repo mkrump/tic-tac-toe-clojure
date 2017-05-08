@@ -1,5 +1,6 @@
-(ns tictactoe.play
-  (require tictactoe.render-board))
+(ns tictactoe.main
+  (require tictactoe.render-board)
+  (:gen-class))
 
 (defn -main []
   (print
