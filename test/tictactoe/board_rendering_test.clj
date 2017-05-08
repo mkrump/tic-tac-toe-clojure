@@ -8,12 +8,22 @@
 
 (deftest render-board-test
   (testing "A vector of length n^2 should return a string nxn ttt board"
-    (is (= "  2  |     |  2  \n- - - - - - - - -\n     |  2  |     \n- - - - - - - - -\n  1  |  2  |  1  \n- - - - - - - - -\n"
+    (is (= (str "  2  |     |  2  \n"
+                "- - - - - - - - -\n"
+                "     |  2  |     \n"
+                "- - - - - - - - -\n"
+                "  1  |  2  |  1  \n"
+                "- - - - - - - - -\n")
            (render-board [2 0 2 0 2 0 1 2 1]
                          :player-symbol-mapping {1 "1" 2 "2"})))))
 
 (deftest render-board-default-player-mapping-test
   (testing "If no player mapping supplied Xs and Os will be used for player symbols"
-    (is (= "  X  |     |  O  \n- - - - - - - - -\n     |  X  |     \n- - - - - - - - -\n  X  |  X  |  X  \n- - - - - - - - -\n"
+    (is (= (str "  X  |     |  O  \n"
+                "- - - - - - - - -\n"
+                "     |  X  |     \n"
+                "- - - - - - - - -\n"
+                "  X  |  X  |  X  \n"
+                "- - - - - - - - -\n")
            (render-board [1 0 2 0 1 0 1 1 1])))))
 

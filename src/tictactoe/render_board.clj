@@ -4,13 +4,12 @@
 
 (defn- render-empty-cell [] " ")
 
-(defn- lookup-player-symbol [key player-symbol-mapping]
-  (if (not (cell-empty? key))
-    (get player-symbol-mapping key key)
-    (render-empty-cell)))
-
-(defn- render-cell [cell player-symbol-mapping]
-  (str "  " (lookup-player-symbol cell player-symbol-mapping) "  "))
+(defn- render-cell [key player-symbol-mapping]
+  (str "  "
+    (if (not (cell-empty? key))
+      (get player-symbol-mapping key key)
+      (render-empty-cell))
+    "  "))
 
 (defn- render-row-contents [row player-symbol-mapping]
   (str (clojure.string/join "|" (map #(render-cell %1 player-symbol-mapping) row)) "\n"))
