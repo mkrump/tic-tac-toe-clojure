@@ -1,14 +1,26 @@
-# tictactoe
+# TicTacToe
+Clojure version of TicTacToe
 
-A Clojure library designed to ... well, that part is up to you.
+## Prerequisites
+- Install [Leiningen](https://leiningen.org/)
 
-## Usage
+- Clone the repo
 
-FIXME
+	```
+	git clone https://github.com/mkrump/tic-tac-toe-clojure.git
+	```
 
-## License
+## Building the project
+```
+TBU
+```
 
-Copyright © 2017 FIXME
+## Running the tests
+```
+lein test
+```
 
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+## Play TicTacToe
+```
+lein run
+```
