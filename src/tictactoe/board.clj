@@ -15,11 +15,12 @@
 (defn- lazy-seq->string [lz-seq]
   (apply str lz-seq))
 
-(defn get-board-gridsize [board]
+(defn- get-board-gridsize [board]
   (int (Math/sqrt (count board))))
 
-(defn valid-move? [board, move]
-  (= 0 (get board move)))
+(defn square-occupied? [board square]
+  (let [board-square (get board square)]
+    (or (= 1 board-square) (= 2 board-square))))
 
 (defn board->string [board]
   (let [board-size (get-board-gridsize board)]

@@ -1,32 +1,20 @@
 (ns tictactoe.ui
-  (:require [tictactoe.board :as rb]
-            [tictactoe.board-translators :as bt]
+  (:require [tictactoe.board-translators :as bm]
             [tictactoe.board :as b]))
+
+(defn board->ui [board]
+  (map #(bm/apply-ui-mapping board %) (range (count board))))
+
+(defn ui->board [move] (bm/inverse-ui-mapping move))
 
 (defn render-board [board]
   (->> board
-       (bt/numeric-board-translation)
-       (rb/board->string)
+       (board->ui)
+       (b/board->string)
        (print))
   (flush))
-
-(defn valid-ui-choice? [ui-board choice]
-  (some? ((set ui-board) choice)))
-
-(defn- identity-mapping [board]
-  (map str board))
-
-;TODO Left off here. Wasn't sure how to handle validation
-;TODO because had to combine with mapping function and wasn't
-;TODO if should be passing around
-(defn valid-input? [board choice &
-                    {:keys [board-elements->ui-elements]
-                     :or {board-elements->ui-elements identity-mapping}}]
-  (cond
-    (valid-ui-choice? (board-elements->ui-elements board) choice)
-    (b/valid-move? board (Integer/parseInt choice))
-    :else false))
 
 (defn clear-screen []
   (print "\033c")
   (flush))
+

@@ -2,22 +2,6 @@
   (:require [clojure.test :refer :all]
             [tictactoe.board :refer :all]))
 
-(deftest get-board-size-test
-  (testing "A board vector of length 9 should correspond to a board size of 3"
-    (is (= 3 (get-board-gridsize (repeat 9 0))))))
-
-(deftest is-valid-move
-  (testing "An open square (value = 0) should be a valid move"
-    (is (= true (valid-move? [0 1 2] 0)))))
-
-(deftest is-not-valid-move
-  (testing "An occupied square (value != 0) should not be a valid move"
-    (is (= false (valid-move? [0 1 2] 1)))))
-
-(deftest out-of-range-move
-  (testing "An move that is outside of the board's range should not be a valid move"
-    (is (= false (valid-move? [0 1 2] 100)))))
-
 (deftest render-board-test
   (testing "A vector of length n^2 should return a string nxn ttt board"
     (is (= (str "  2  |     |  2  \n"
@@ -39,3 +23,15 @@
                 "- - - - - - - - -\n")
            (board->string ["X" " " "O" " " "X" " " "X" "X" "X"])))))
 
+
+(deftest square-occupied-player1-test
+  (testing "Is a square is occupied (value of 1 or 2) should return true"
+    (is (= true (square-occupied? [1 0 1] 0)))))
+
+(deftest square-occupied-player2-test
+  (testing "Is a square is occupied (value of 1 or 2) should return true"
+    (is (= true (square-occupied? [1 2 1] 1)))))
+
+(deftest square-vacant-test
+  (testing "Is a square is occupied (value of 1 or 2) should return true"
+    (is (= false (square-occupied? [1 0 1] 1)))))

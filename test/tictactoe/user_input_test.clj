@@ -4,10 +4,8 @@
 
 (deftest get-user-input-test
   (testing "Test user input captured"
-    (is (= (str "Select an open square: "
-                "Moved to: 3")
+    (is (= (str "Select an open square: ")
            (with-out-str
              (with-in-str "3" (get-user-move)))))))
-
 
 
