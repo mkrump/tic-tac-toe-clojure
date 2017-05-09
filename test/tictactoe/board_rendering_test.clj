@@ -14,8 +14,8 @@
                 "- - - - - - - - -\n"
                 "  1  |  2  |  1  \n"
                 "- - - - - - - - -\n")
-           (render-board [2 0 2 0 2 0 1 2 1]
-                         :player-symbol-mapping {1 "1" 2 "2"})))))
+           (render-board ["2" " " "2" " " "2" " " "1" "2" "1"])))))
+
 
 (deftest render-board-default-player-mapping-test
   (testing "If no player mapping supplied Xs and Os will be used for player symbols"
@@ -25,5 +25,5 @@
                 "- - - - - - - - -\n"
                 "  X  |  X  |  X  \n"
                 "- - - - - - - - -\n")
-           (render-board [1 0 2 0 1 0 1 1 1])))))
+           (render-board ["X" " " "O" " " "X" " " "X" "X" "X"])))))
 

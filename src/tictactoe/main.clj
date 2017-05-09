@@ -1,12 +1,14 @@
 (ns tictactoe.main
-  (require tictactoe.render-board)
+  (:require [tictactoe.render-board :as rb])
+  (:require [tictactoe.board-translators :as bt])
   (:gen-class))
 
 (defn -main []
-  (print
-    (tictactoe.render-board/render-board
-           [0 1 2
-            0 1 1
-            1 1 1]))
+  (let [board [0 1 2 0 1 1 0 1 1]]
+    (->> board
+         (bt/numeric-board-translation)
+         (rb/render-board)
+         (print)))
   (flush))
+
 
