@@ -1,11 +1,13 @@
 (ns tictactoe.user-input)
 
-(defn- print-and-flush [msg]
+(defn- print-then-flush [msg]
   (print msg)
   (flush))
 
 (defn get-user-move []
-  (print-and-flush "Select an open square: ")
+  (print-then-flush "Select an open square: ")
   (let [move (read-line)]
-    (print-and-flush (str "Moved to: " move))))
+    (print-then-flush (str "Moved to: " move))))
+
+
 

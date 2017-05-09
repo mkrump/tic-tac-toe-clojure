@@ -15,3 +15,15 @@
 (deftest clear-screen-test
   (testing "print ANSI clear screen escape code '\033c' "
     (is (= "\033c" (with-out-str (clear-screen))))))
+
+(deftest valid-ui-choice-test
+  (testing "Only choices avaiable from the UI should be accepted"
+    (is (= true (valid-ui-choice? ["A" "B" "B" "C"] "A")))))
+
+(deftest invalid-ui-choice-test
+  (testing "Only choices avaiable from the UI should be accepted"
+    (is (= false (valid-ui-choice? ["A" "B" "B" "C"] "1")))))
+
+(deftest invalid-input-test
+  (testing ""
+    (is (= false (valid-ui-choice? ["A" "B" "B" "C"] "1")))))

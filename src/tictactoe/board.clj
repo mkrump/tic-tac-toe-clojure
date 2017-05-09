@@ -18,6 +18,9 @@
 (defn get-board-gridsize [board]
   (int (Math/sqrt (count board))))
 
+(defn valid-move? [board, move]
+  (= 0 (get board move)))
+
 (defn board->string [board]
   (let [board-size (get-board-gridsize board)]
     (->> board
