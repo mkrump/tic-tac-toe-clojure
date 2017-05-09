@@ -1,7 +1,6 @@
-(ns tictactoe.render-board
+(ns tictactoe.board
   (:require [clojure.set :as set]
-            [clojure.string :as s]
-            [tictactoe.board-translators :as bt]))
+            [clojure.string :as s]))
 
 (defn- render-row-contents [row]
   (str "  " (s/join "  |  " row) "  \n"))
@@ -13,16 +12,16 @@
   (str (render-row-contents row)
        (render-row-separator row)))
 
-(defn- lazy-seq-to-string [lz-seq] (apply str lz-seq))
+(defn- lazy-seq->string [lz-seq]
+  (apply str lz-seq))
 
-(defn get-board-size [board]
+(defn get-board-gridsize [board]
   (int (Math/sqrt (count board))))
 
-(defn render-board [board]
-  (let [board-size (get-board-size board)]
+(defn board->string [board]
+  (let [board-size (get-board-gridsize board)]
     (->> board
          (partition board-size)
          (map render-row)
-         (lazy-seq-to-string))))
-
+         (lazy-seq->string))))
 

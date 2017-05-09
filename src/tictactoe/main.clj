@@ -1,14 +1,15 @@
 (ns tictactoe.main
-  (:require [tictactoe.render-board :as rb])
-  (:require [tictactoe.board-translators :as bt])
+  (:require [tictactoe.ui :as ui])
+  (:require [tictactoe.user-input :as user-input])
   (:gen-class))
 
 (defn -main []
   (let [board [0 1 2 0 1 1 0 1 1]]
-    (->> board
-         (bt/numeric-board-translation)
-         (rb/render-board)
-         (print)))
-  (flush))
+    (loop [i 5]
+      (ui/render-board board)
+      (user-input/get-user-move)
+      (Thread/sleep 2000)
+      (ui/clear-screen)
+      (recur (dec i)))))
 
 

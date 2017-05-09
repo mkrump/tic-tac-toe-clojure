@@ -1,10 +1,10 @@
-(ns tictactoe.board-rendering-test
+(ns tictactoe.board-test
   (:require [clojure.test :refer :all]
-            [tictactoe.render-board :refer :all]))
+            [tictactoe.board :refer :all]))
 
 (deftest get-board-size-test
   (testing "A board vector of length 9 should correspond to a board size of 3"
-    (is (= 3 (get-board-size (repeat 9 0))))))
+    (is (= 3 (get-board-gridsize (repeat 9 0))))))
 
 (deftest render-board-test
   (testing "A vector of length n^2 should return a string nxn ttt board"
@@ -14,7 +14,7 @@
                 "- - - - - - - - -\n"
                 "  1  |  2  |  1  \n"
                 "- - - - - - - - -\n")
-           (render-board ["2" " " "2" " " "2" " " "1" "2" "1"])))))
+           (board->string ["2" " " "2" " " "2" " " "1" "2" "1"])))))
 
 
 (deftest render-board-default-player-mapping-test
@@ -25,5 +25,5 @@
                 "- - - - - - - - -\n"
                 "  X  |  X  |  X  \n"
                 "- - - - - - - - -\n")
-           (render-board ["X" " " "O" " " "X" " " "X" "X" "X"])))))
+           (board->string ["X" " " "O" " " "X" " " "X" "X" "X"])))))
 
