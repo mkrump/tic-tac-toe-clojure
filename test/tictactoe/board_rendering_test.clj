@@ -2,9 +2,15 @@
   (:require [clojure.test :refer :all]
             [tictactoe.render-board :refer :all]))
 
-(deftest get-board-size-test
-  (testing "A board vector of length 9 should correspond to a board size of 3"
-    (is (= 3 (get-board-size (repeat 9 0))))))
+(deftest new-3x3-board-test
+  (testing "A new board should consist of a vector of zeros length n^2"
+    (let [board (generate-board 3)]
+      (is (and (= 9 (count board)) (every? zero? board))))))
+
+(deftest new-4x4-board-test
+  (testing "A new board should consist of a vector of zeros length n^2"
+    (let [board (generate-board 4)]
+      (is (and (= 16 (count board)) (every? zero? board))))))
 
 (deftest render-board-test
   (testing "A vector of length n^2 should return a string nxn ttt board"

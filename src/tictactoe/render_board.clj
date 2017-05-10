@@ -6,10 +6,10 @@
 
 (defn- render-cell [key player-symbol-mapping]
   (str "  "
-    (if (not (cell-empty? key))
-      (get player-symbol-mapping key key)
-      (render-empty-cell))
-    "  "))
+       (if (not (cell-empty? key))
+         (get player-symbol-mapping key key)
+         (render-empty-cell))
+       "  "))
 
 (defn- render-row-contents [row player-symbol-mapping]
   (str (clojure.string/join "|" (map #(render-cell %1 player-symbol-mapping) row)) "\n"))
@@ -23,8 +23,11 @@
 
 (defn- lazy-seq-to-string [lz-seq] (apply str lz-seq))
 
-(defn get-board-size [board]
+(defn- get-board-size [board]
   (int (Math/sqrt (count board))))
+
+(defn generate-board [gridsize]
+  (vec (repeat (* gridsize gridsize) 0)))
 
 (defn render-board
   [board & {:keys [player-symbol-mapping]
