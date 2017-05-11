@@ -23,20 +23,18 @@
     [nil err]))
 
 (defn valid-move? [params]
-  (->> (open-square? params)
-       (apply-or-error valid-ui-choice?)))
+  (->> (valid-ui-choice? params)
+       (apply-or-error open-square?)))
 
 (defn validation-loop [params]
-  (let  [updated-params (assoc params :move (user-input/get-user-move))
-         [result err] (valid-move? updated-params)]
+  (let  [params (assoc params :move (user-input/get-user-move))
+         [result err] (valid-move? params)]
       (if (nil? result)
         (do
           (println err)
-          (Thread/sleep 2000)
           (recur params))
         (do
-          (println (result :move))
-          (result)))))
+          result))))
 
 
 
