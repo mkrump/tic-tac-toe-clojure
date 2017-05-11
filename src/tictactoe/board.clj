@@ -1,12 +1,12 @@
 (ns tictactoe.board
   (:require [clojure.set :as set]
-            [clojure.string :as s]))
+            [clojure.string :as string]))
 
 (defn- render-row-contents [row]
-  (str "  " (s/join "  |  " row) "  \n"))
+  (str "  " (string/join "  |  " row) "  \n"))
 
 (defn- render-row-separator [row]
-  (str (s/join " " (repeat (count row) "- - -")) "\n"))
+  (str (string/join " " (repeat (count row) "- - -")) "\n"))
 
 (defn- render-row [row]
   (str (render-row-contents row)

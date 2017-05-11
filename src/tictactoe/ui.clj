@@ -1,11 +1,11 @@
 (ns tictactoe.ui
-  (:require [tictactoe.board :as rb])
-  (:require [tictactoe.board-translators :as bt]))
+  (:require [tictactoe.board :as board])
+  (:require [tictactoe.board-translators :as board-translators]))
 
 (defn render-board [board]
   (->> board
-       (bt/numeric-board-translation)
-       (rb/board->string)
+       (board-translators/numeric-board-translation)
+       (board/board->string)
        (print))
   (flush))
 
