@@ -20,7 +20,8 @@
 
 (defn square-occupied? [board square]
   (let [board-square (get board square)]
-    (or (= 1 board-square) (= 2 board-square))))
+    (or (= 1 board-square)
+        (= 2 board-square))))
 
 (defn board->string [board]
   (let [board-size (get-board-gridsize board)]
@@ -28,4 +29,11 @@
          (partition board-size)
          (map render-row)
          (lazy-seq->string))))
+
+(defn make-move [board move player]
+  (if (and (not (square-occupied? board move))
+           (contains? board move))
+    [(assoc board move player) nil]
+    [nil "Invalid Move."]))
+
 

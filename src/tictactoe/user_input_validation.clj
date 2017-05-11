@@ -6,7 +6,8 @@
   (let [{:keys [board move ui-board ui->board]} params
          translated-move (ui->board move)]
     (if (b/square-occupied? board translated-move)
-      [nil "Square occupied."] [params nil])))
+      [nil "Square occupied."]
+      [params nil])))
 
 (defn valid-ui-choice? [params]
   (let [{:keys [board move ui-board ui->board]} params]

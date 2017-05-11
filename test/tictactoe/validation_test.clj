@@ -26,12 +26,14 @@
   (let [params {:board [1 0 0] :move "B" :ui-board ["A" "B" "C"] :ui->board (fn [idx] 1)}]
     (testing "Chains together valid-ui-choice and open-square"
       (is (= [params nil] (valid-move? params))))))
-(valid-move-test)
 
 (deftest invalid-square-occupied
   (let [params {:board [0 1 0] :move "B" :ui-board ["A" "B" "C"] :ui->board (fn [idx] 1)}]
     (testing "Chains together valid-ui-choice and open-square"
-      (is (= [nil "Square occupied."] (valid-move? params))))))
+      (is (= [nil "Square occupied."]
+             (valid-move? params))))))
+
+(invalid-square-occupied)
 
 (deftest invalid-not-ui-choice
   (let [params {:board [0 1 0] :move "Z" :ui-board ["A" "B" "C"] :ui->board (fn [idx] 0)}]

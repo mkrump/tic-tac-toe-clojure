@@ -35,3 +35,13 @@
 (deftest square-vacant-test
   (testing "Is a square is occupied (value of 1 or 2) should return true"
     (is (= false (square-occupied? [1 0 1] 1)))))
+
+(deftest make-move-test
+  (testing "New array should be returned with appropriate player marker"
+    (is (= [[0 1 0] nil] (make-move [0 0 0] 1 1)))))
+
+(deftest make-out-of-range-move-test
+  (testing "New array should be returned with appropriate player marker"
+    (is (= [nil "Invalid Move."] (make-move [0 0 0] 10 1)))))
+
+
