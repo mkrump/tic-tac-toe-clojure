@@ -34,7 +34,9 @@
           (println err)
           (Thread/sleep 2000)
           (recur params))
-        (params :move))))
+        (do
+          (println (result :move))
+          (result)))))
 
 
 

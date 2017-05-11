@@ -13,7 +13,7 @@
                    :ui-board (ui/board->ui board)
                    :ui->board ui/ui->board
                    :move nil}]
-      (validation/validation-loop params))
+         [params (validation/validation-loop params)])
     (Thread/sleep 2000)
     (ui/clear-screen)
     (recur (dec i))))
