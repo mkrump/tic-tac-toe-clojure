@@ -38,10 +38,6 @@
 
 (deftest make-move-test
   (testing "New array should be returned with appropriate player marker"
-    (is (= [[0 1 0] nil] (make-move [0 0 0] 1 1)))))
-
-(deftest make-out-of-range-move-test
-  (testing "New array should be returned with appropriate player marker"
-    (is (= [nil "Invalid Move."] (make-move [0 0 0] 10 1)))))
+    (is (= [[0 1 0] (make-move [0 0 0] 1 1)]))))
 
 

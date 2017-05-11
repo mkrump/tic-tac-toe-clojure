@@ -7,33 +7,26 @@
   (:gen-class))
 
 (defn run-game [game]
-  (-> game
-      (validation/validation-loop)
-      (assoc :move (board/make-move :board (:ui->board :move) :player))
-      (assoc :board (board/make-move :board (:ui->board :move) :player))
-      (assoc :play (players/switch-player :player))))
+  (let [{move :move
+         player :player
+         board :board
+         ui->board :ui->board} (validation/validation-loop game)]
+    (-> game
+        (assoc :board (board/make-move board (ui->board move) player))
+        (assoc :player (players/switch-player player)))))
+
+(defn- initial-game []
+  (let [board (vec (repeat 9 0))]
+     {:board     board
+      :ui-board  (ui/board->ui board)
+      :ui->board ui/ui->board
+      :move      nil
+      :player    1}))
 
 (defn -main []
-  (let [board (vec (repeat 9 0))]
-    (loop [i 10
-           game {:board     board
-                 :ui-board  (ui/board->ui board)
-                 :ui->board ui/ui->board
-                 :move      nil
-                 :player    1}]
-      (ui/render-board (game :board))
-      (let [
-            validated-params (validation/validation-loop game)
-            board (validated-params :board)
-            ui->board (validated-params :ui->board)
-            move (validated-params :move)
-            player (validated-params :player)
-            [updated-board _] (board/make-move board (ui->board move) player)
-            updated-player (players/switch-player player)
-            updated-params (assoc validated-params :player updated-player :board updated-board)]
-
-        (Thread/sleep 500)
-        (ui/clear-screen)
-        (recur (dec i) updated-params)))))
-
-
+  (loop [i 10 game (initial-game)]
+    (ui/render-board (game :board))
+    (let [updated-game (run-game game)]
+      (Thread/sleep 500)
+      (ui/clear-screen)
+      (recur (dec i) updated-game))))

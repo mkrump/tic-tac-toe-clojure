@@ -31,9 +31,6 @@
          (lazy-seq->string))))
 
 (defn make-move [board move player]
-  (if (and (not (square-occupied? board move))
-           (contains? board move))
-    [(assoc board move player) nil]
-    [nil "Invalid Move."]))
+  (assoc board move player))
 
 

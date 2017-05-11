@@ -3,20 +3,21 @@
   (:require [tictactoe.board :as b]))
 
 (defn open-square? [params]
-  (let [{:keys [board move ui-board ui->board]} params
+  (let [{:keys [board move ui-board ui->board player]} params
          translated-move (ui->board move)]
     (if (b/square-occupied? board translated-move)
       [nil "Square occupied."]
       [params nil])))
 
 (defn valid-ui-choice? [params]
-  (let [{:keys [board move ui-board ui->board]} params]
+  (let [{:keys [board move ui-board ui->board player]} params]
     (if (contains? (set ui-board) move)
       [params nil]
       [nil "Choice not available."])))
 
 ;TODO Based on suggestions here
 ;TODO wasn't sure if better route
+;TODO to just use exceptions
 ;https://adambard.com/blog/acceptable-error-handling-in-clojure/
 (defn apply-or-error [f [val err]]
   (if (nil? err)
