@@ -15,10 +15,6 @@
       [game nil]
       [nil "Choice not available."])))
 
-;TODO Based on suggestions here
-;TODO wasn't sure if better route
-;TODO to just use exceptions
-;https://adambard.com/blog/acceptable-error-handling-in-clojure/
 (defn apply-or-error [f [val err]]
   (if (nil? err)
     (f val)
