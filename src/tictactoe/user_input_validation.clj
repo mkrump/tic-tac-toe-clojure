@@ -2,17 +2,17 @@
   (:require [tictactoe.user-input :as user-input])
   (:require [tictactoe.board :as b]))
 
-(defn open-square? [params]
-  (let [{:keys [board move ui-board ui->board player]} params
+(defn open-square? [game]
+  (let [{board :board move :move ui->board :ui->board} game
          translated-move (ui->board move)]
     (if (b/square-occupied? board translated-move)
       [nil "Square occupied."]
-      [params nil])))
+      [game nil])))
 
-(defn valid-ui-choice? [params]
-  (let [{:keys [board move ui-board ui->board player]} params]
+(defn valid-ui-choice? [game]
+  (let [{move :move ui-board :ui-board} game]
     (if (contains? (set ui-board) move)
-      [params nil]
+      [game nil]
       [nil "Choice not available."])))
 
 ;TODO Based on suggestions here
@@ -28,16 +28,13 @@
   (->> (valid-ui-choice? params)
        (apply-or-error open-square?)))
 
-(defn validation-loop [params]
-  (let  [params (assoc params :move (user-input/get-user-move))
-         [result err] (valid-move? params)]
+(defn validator [params]
+  (let  [[result err] (valid-move? params)]
       (if (nil? result)
         (do
           (println err)
-          (recur params))
-        (do
-          result))))
-
+          result)
+        result)))
 
 
 
