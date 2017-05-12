@@ -25,7 +25,7 @@
         (assoc :player (players/switch-player player)))))
 
 (defn- initial-game []
-  (let [board (vec (repeat 9 0))]
+  (let [board (board/generate-board 3)]
     {:board     board
      :ui-board  (ui/board->ui board)
      :ui->board ui/ui->board
@@ -33,6 +33,7 @@
      :player    1}))
 
 (defn -main []
+  (ui/clear-screen)
   (loop [game (initial-game)]
     (ui/render-board (game :board))
     (let [updated-game
