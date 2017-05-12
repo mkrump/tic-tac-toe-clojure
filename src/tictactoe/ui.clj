@@ -7,6 +7,7 @@
 
 (defn ui->board [move] (board-translators/inverse-ui-mapping move))
 
+;TODO Move board->string to ui shouldn't be part of board.
 (defn render-board [board]
   (->> board
        (board->ui)

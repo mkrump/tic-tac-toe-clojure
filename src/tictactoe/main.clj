@@ -10,10 +10,10 @@
   (let [updated-game
         (-> game
             (assoc :move (user-input/get-user-move))
-            (#(assoc % :move (:move (validation/validator %)))))])
- t    (if (nil? (:move updated-game)))
+            (#(assoc % :move (:move (validation/validator %)))))]
+    (if (nil? (:move updated-game))
       (recur game)
-      updated-game)
+      updated-game)))
 
 (defn update-game [game]
   (let [{board     :board
