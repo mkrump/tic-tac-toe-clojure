@@ -33,3 +33,4 @@
 (deftest valid-transformation-test
   (testing "Applying the inverse-ui-mapping to ui-mapping should return the original board square"
     (is (= 4 (inverse-ui-mapping (ui-mapping 4))))))
+

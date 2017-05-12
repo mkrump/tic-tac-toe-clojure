@@ -1,11 +1,11 @@
 (ns tictactoe.user-input-validation
   (:require [tictactoe.user-input :as user-input])
-  (:require [tictactoe.board :as b]))
+  (:require [tictactoe.board :as board]))
 
 (defn open-square? [game]
   (let [{board :board move :move ui->board :ui->board} game
          translated-move (ui->board move)]
-    (if (b/square-occupied? board translated-move)
+    (if (board/square-occupied? board translated-move)
       [nil "Square occupied."]
       [game nil])))
 

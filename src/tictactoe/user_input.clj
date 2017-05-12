@@ -8,4 +8,3 @@
   (print-then-flush "Select an open square: ")
   (read-line))
 
-

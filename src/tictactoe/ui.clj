@@ -1,16 +1,16 @@
 (ns tictactoe.ui
-  (:require [tictactoe.board-translators :as bm]
-            [tictactoe.board :as b]))
+  (:require [tictactoe.board-translators :as board-translators]
+            [tictactoe.board :as board]))
 
 (defn board->ui [board]
-  (map #(bm/apply-ui-mapping board %) (range (count board))))
+  (map #(board-translators/apply-ui-mapping board %) (range (count board))))
 
-(defn ui->board [move] (bm/inverse-ui-mapping move))
+(defn ui->board [move] (board-translators/inverse-ui-mapping move))
 
 (defn render-board [board]
   (->> board
        (board->ui)
-       (b/board->string)
+       (board/board->string)
        (print))
   (flush))
 

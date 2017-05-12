@@ -15,4 +15,3 @@
 (deftest clear-screen-test
   (testing "print ANSI clear screen escape code '\033c' "
     (is (= "\033c" (with-out-str (clear-screen))))))
-
