@@ -15,7 +15,7 @@
       (recur game)
       updated-game)))
 
-(defn run-game [game]
+(defn update-game [game]
   (let [{board     :board
          ui->board :ui->board
          move      :move
@@ -38,7 +38,7 @@
     (let [updated-game
           (-> game
               (get-move)
-              (run-game))]
+              (update-game))]
       (Thread/sleep 500)
       (ui/clear-screen)
       (recur updated-game))))
