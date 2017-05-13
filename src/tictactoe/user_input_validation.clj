@@ -15,14 +15,14 @@
       [game nil]
       [nil "Choice not available."])))
 
-(defn apply-or-error [f [val err]]
-  (if (nil? err)
-    (f val)
-    [nil err]))
+(defn valid-or-error [validator [value error]]
+  (if (nil? error)
+    (validator value)
+    [nil error]))
 
 (defn valid-move? [params]
   (->> (valid-ui-choice? params)
-       (apply-or-error open-square?)))
+       (valid-or-error open-square?)))
 
 (defn validator [params]
   (let  [[result err] (valid-move? params)]
