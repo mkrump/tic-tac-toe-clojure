@@ -7,8 +7,8 @@
 (defn player-mapping [itm]
   (get {1 "X" 2 "O"} itm))
 
-(defn apply-ui-mapping [board idx]
-  (let [square-contents (get board idx)]
+(defn apply-ui-mapping [board-contents idx]
+  (let [square-contents (get board-contents idx)]
     (if (= 0 square-contents)
       (ui-mapping idx)
       (player-mapping square-contents))))

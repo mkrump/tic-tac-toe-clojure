@@ -25,12 +25,13 @@
         (assoc :player (players/switch-player player)))))
 
 (defn- initial-game []
-  (let [board (board/generate-board 3)]
-    {:board     board
-     :ui-board  (ui/board->ui board)
-     :ui->board ui/ui->board
-     :move      nil
-     :player    1}))
+  (let [board (board/generate-board 3)
+        ui-board (ui/board->ui board)]
+    {:board board
+     :ui-board       ui-board
+     :ui->board      ui/ui->board
+     :move           nil
+     :player         1}))
 
 (defn -main []
   (ui/clear-screen)
@@ -44,4 +45,4 @@
       (ui/clear-screen)
       (recur updated-game))))
 
-
+(-main)

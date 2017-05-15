@@ -4,11 +4,6 @@
 
 (deftest board->ui-empty-test
   (testing "An empty board square should be mapped to +1 index in ui"
-    (is (= "1" (apply-ui-mapping [0 0 1
-                                  1 2 0
-                                  0 0 0] 0)))))
-(deftest board->ui-empty-test
-  (testing "An empty board square should be mapped to +1 index in ui"
     (is (= "9" (apply-ui-mapping [0 0 1
                                   1 2 0
                                   0 0 0] 8)))))
@@ -22,8 +17,8 @@
 (deftest board->ui-occupied-player2-test
   (testing "An occupied board square should be mapped to the players symbol in ui (X=1 O=2)"
     (is (= "O" (apply-ui-mapping [0 0 1
-                                  1 2 0
-                                  0 0 0] 4)))))
+                                   1 2 0
+                                   0 0 0] 4)))))
 
 (deftest ui->board
   (testing "A ui square should be mapped back to the index of its respective board sqaure"

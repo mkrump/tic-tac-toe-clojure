@@ -11,7 +11,7 @@
 
 (defn valid-ui-choice? [game]
   (let [{move :move ui-board :ui-board} game]
-    (if (contains? (set ui-board) move)
+    (if (contains? (set (:board-contents ui-board)) move)
       [game nil]
       [nil "Choice not available."])))
 
