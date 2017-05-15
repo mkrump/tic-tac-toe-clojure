@@ -1,6 +1,6 @@
 (ns tictactoe.players-test
   (:require [clojure.test :refer :all]
-            [tictactoe.players :refer :all]))
+            [tictactoe.game :refer :all]))
 
 (deftest square-occupied-player1-test
   (testing "A switching player 1 results in player 2"
