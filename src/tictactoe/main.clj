@@ -12,8 +12,11 @@
       (let [updated-game
             (-> game
                 (game/get-move)
+                (game/validate-move)
                 (game/update-game))]
         (Thread/sleep 500)
         (ui/clear-screen)
         (recur updated-game))))
   (println "Game Over"))
+
+(-main)
