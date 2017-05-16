@@ -7,13 +7,13 @@
 (defn -main []
   (ui/clear-screen)
   (loop [game (game/initial-game)]
-    (ui/render-board (game :board))
-    (let [updated-game
-          (-> game
-              (game/get-move)
-              (game/update-game))]
-      (Thread/sleep 500)
-      (ui/clear-screen)
-      (recur updated-game))))
-
-(-main)
+    (when (false? (game/game-over? game))
+      (ui/render-board (game :board))
+      (let [updated-game
+            (-> game
+                (game/get-move)
+                (game/update-game))]
+        (Thread/sleep 500)
+        (ui/clear-screen)
+        (recur updated-game))))
+  (println "Game Over"))

@@ -32,7 +32,7 @@
                 "  7  |  8  |  X  \n"
                 "- - - - - - - - -\n")
            (with-out-str
-             (render-board {:board-contents [1 0 2 0 0 0 0 0 1] :gridsize 3}))))))
+             (render-board {:board-contents [1 0 -1 0 0 0 0 0 1] :gridsize 3}))))))
 
 (deftest clear-screen-test
   (testing "print ANSI clear screen escape code '\033c' "

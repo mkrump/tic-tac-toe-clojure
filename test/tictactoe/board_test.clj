@@ -11,7 +11,7 @@
 
 (deftest square-occupied-player2-test
   (testing "Is a square is occupied (value of 1 or 2) should return true"
-    (is (= true (square-occupied? {:board-contents [1 2 1]} 1)))))
+    (is (= true (square-occupied? {:board-contents [1 -1 1]} 1)))))
 
 (deftest square-vacant-test
   (testing "Is a square is occupied (value of 1 or 2) should return true"
