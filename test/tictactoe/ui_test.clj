@@ -4,11 +4,11 @@
 
 (deftest render-board-test
   (testing "render-board should print ui's version of tictactoe board to console"
-    (is (= (str "  X  |  1  |  O  \n"
+    (is (= (str "  X  |  2  |  O  \n"
                 "- - - - - - - - -\n"
-                "  3  |  4  |  5  \n"
+                "  4  |  5  |  6  \n"
                 "- - - - - - - - -\n"
-                "  6  |  7  |  X  \n"
+                "  7  |  8  |  X  \n"
                 "- - - - - - - - -\n")
            (with-out-str (render-board [1 0 2 0 0 0 0 0 1]))))))
 
