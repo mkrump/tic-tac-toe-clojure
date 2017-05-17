@@ -4,7 +4,7 @@
 
 (defn square-occupied? [board square]
   (let [{board-contents :board-contents} board
-         board-square (get board-contents square)]
+        board-square (get board-contents square)]
     (or (= 1 board-square)
         (= -1 board-square))))
 

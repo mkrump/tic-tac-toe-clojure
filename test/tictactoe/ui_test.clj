@@ -38,4 +38,14 @@
   (testing "print ANSI clear screen escape code '\033c' "
     (is (= "\033c" (with-out-str (clear-screen))))))
 
+(deftest render-msg-test
+  (testing "An abitrary msg should be rendered to the console"
+    (is (= "Hello\n" (with-out-str (render-msg "Hello"))))))
 
+(deftest render-game-over-msg-win-test
+  (testing "A game with a winner should render a winning message"
+    (is (= "X's Win!\n" (with-out-str (render-game-over-msg {:winner "X"}))))))
+
+(deftest render-game-over-msg-tie-test
+  (testing "If game ends in tie should display tie msg"
+    (is (= "Tie game!\n" (with-out-str (render-game-over-msg {:tie ""}))))))

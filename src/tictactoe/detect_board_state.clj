@@ -58,15 +58,6 @@
       true
       false))
 
-;(defn game-status [board gridsize]
-;  (cond (not= 0 (winner board gridsize)) {:winner 1}
-;        (true? (tie? board gridsize)) (hash-map :tie true)
-;        :else (hash-map :playing true)))
-;
-;(def b [1 1 1 0 0 0 0 0 0])
-;(def gs 3)
-;(true? (tie? b gs))
-;(true? (tie? b gs))
-;(:playing (game-status b gs))
-;(:winner (game-status b gs))
-;(:tie (game-status b gs))
+
+
+

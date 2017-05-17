@@ -2,9 +2,6 @@
   (:require [clojure.test :refer :all]
             [tictactoe.board :refer :all]))
 
-
-
-
 (deftest square-occupied-player1-test
   (testing "Is a square is occupied (value of 1 or 2) should return true"
     (is (= true (square-occupied? {:board-contents [1 0 1]} 0)))))

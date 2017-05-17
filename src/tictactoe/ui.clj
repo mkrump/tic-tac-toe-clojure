@@ -35,7 +35,18 @@
        (print))
   (flush))
 
+(defn ui-pause [ms]
+  (Thread/sleep ms))
+
 (defn clear-screen []
   (print "\033c")
   (flush))
+
+(defn render-msg [msg]
+  (println msg))
+
+(defn render-game-over-msg [end-game-state]
+  (if (contains? end-game-state :winner)
+    (println (str (end-game-state :winner) "'s Win!"))
+    (println (str "Tie game!"))))
 
