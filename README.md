@@ -12,7 +12,8 @@ Clojure version of TicTacToe
 
 ## Building the project
 ```
-TBU
+lein uberjar
+java -jar DIRECTORY_JAR_FILE/tictactoe-0.1.0-SNAPSHOT-standalone.jar
 ```
 
 ## Running the tests
