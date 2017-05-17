@@ -8,10 +8,11 @@
   (:require [tictactoe.human-console-player :as human-console-player])
   (:require [tictactoe.computer-random-player :as computer-random-player]))
 
-
+(defn- ?->keyword [value]
+  (keyword (str value)))
 
 (defn- get-current-player [game]
-  (let [current-player (keyword (str (:current-player game)))]
+  (let [current-player (?->keyword (:current-player game))]
     (get-in game [:players current-player])))
 
 (defn- request-player-move [game]
@@ -25,6 +26,44 @@
 
 (defn switch-player [player]
   (* -1 player))
+
+(defn generate-player-mapping [game]
+  {(keyword (get-in game [:players :-1 :marker])) -1
+   (keyword (get-in game [:players :1 :marker])) 1})
+
+(defn initialize-new-game []
+  (let [board (board/generate-board 3)
+        ui-board (ui/board->ui board)]
+    {:board          board
+     :ui-board       ui-board
+     :ui->board      ui/ui->board
+     :move           nil
+     :current-player 1
+     :players        {:1 (human-console-player/human-console-player "X")
+                      :-1 (computer-random-player/computer-random-player "O")}}))
+
+(defn game-over? [game]
+  (detect-board-state/game-over?
+    (get-in game [:board :board-contents])
+    (get-in game [:board :gridsize])))
+
+(defn update-game [game]
+  (let [{board          :board
+         ui->board      :ui->board
+         move           :move
+         current-player :current-player} game]
+    (-> game
+        (assoc :board (board/make-move board move current-player))
+        (assoc :current-player (switch-player current-player)))))
+
+(defn end-game-state [game]
+  (let [board-contents (get-in game [:board :board-contents])
+        gridsize (get-in game [:board :gridsize])
+        winner (detect-board-state/winner board-contents gridsize)
+        tie (detect-board-state/tie? board-contents gridsize)]
+    (cond
+      (not= 0 winner) {:winner (get-in game [:players (?->keyword winner) :marker])}
+      (true? tie) {:tie ""})))
 
 (defn get-move [game]
   (let [{ui-board :ui-board board
@@ -43,44 +82,3 @@
               (ui/render-msg error)
               (recur (ui/render-move-request-msg) (request-player-move game)))
             (assoc game :move move)))))))
-
-(defn game-over? [game]
-  (detect-board-state/game-over?
-    (get-in game [:board :board-contents])
-    (get-in game [:board :gridsize])))
-
-(defn update-game [game]
-  (let [{board          :board
-         ui->board      :ui->board
-         move           :move
-         current-player :current-player} game]
-    (-> game
-        (assoc :board (board/make-move board move current-player))
-        (assoc :current-player (switch-player current-player)))))
-
-
-(defn initial-game []
-  (let [board (board/generate-board 3)
-        ui-board (ui/board->ui board)]
-    {:board          board
-     :ui-board       ui-board
-     :ui->board      ui/ui->board
-     :move           nil
-     :current-player 1
-     :players        {:-1 (human-console-player/human-console-player "X")
-                      :1 (computer-random-player/computer-random-player "O")}}))
-
-;(def x (initial-game))
-
-;(get-in x [:players])
-
-(defn end-game-state [game]
-  (let [board-contents (get-in game [:board :board-contents])
-        gridsize (get-in game [:board :gridsize])
-        winner (detect-board-state/winner board-contents gridsize)
-        tie (detect-board-state/tie? board-contents gridsize)]
-    (cond
-      (not= 0 winner) {:winner (get-in game [:players (keyword (str winner)) :marker])}
-      (true? tie) {:tie ""})))
-
-

@@ -17,19 +17,23 @@
                 {:board-contents [1 1 1
                                   0 0 0
                                   0 0 0]
-                 :gridsize 3}}]
-    (testing "If player 1 wins"
-      (is (= {:winner (board-translators/player-mapping 1)}
-             (end-game-state game))))))
+                 :gridsize 3}
+              :players {:1 {:marker "X"}
+                        :-1 {:marker "O"}}}]
+       (testing "If player 1 wins"
+         (is (= {:winner "X"}
+                (end-game-state game))))))
 
 (deftest player2-wins-test
   (let [game {:board
               {:board-contents [-1 -1 -1
                                  0 0 0
                                  0 0 0]
-               :gridsize 3}}]
+               :gridsize 3}
+              :players {:1 {:marker "X"}
+                        :-1 {:marker "O"}}}]
     (testing "If player 2 wins"
-      (is (= {:winner (board-translators/player-mapping -1)}
+      (is (= {:winner "O"}
              (end-game-state game))))))
 
 (deftest tie-test

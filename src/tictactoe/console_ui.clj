@@ -16,8 +16,11 @@
   (apply str lz-seq))
 
 (defn board->ui [board]
-  (let [{board-contents :board-contents} board]
-    (assoc board :board-contents (map #(board-translators/apply-ui-mapping board-contents %) (range (count board-contents))))))
+  (let [{board-contents :board-contents} board
+         ;TODO LEFT OFF: WANT TO SUB PLAYER-SYMBOL-MAPPING AS A PARAM
+         player-symbol-mapping {:1 "X" :-1 "O"}
+         translated-board (map #(board-translators/apply-ui-mapping board-contents % player-symbol-mapping) (range (count board-contents)))]
+    (assoc board :board-contents translated-board)))
 
 (defn ui->board [move] (board-translators/inverse-ui-mapping move))
 

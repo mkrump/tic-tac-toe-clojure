@@ -3,10 +3,9 @@
   (:require [tictactoe.game :as game])
   (:gen-class))
 
-
 (defn -main []
   (ui/clear-screen)
-  (loop [game (game/initial-game)
+  (loop [game (game/initialize-new-game)
          _ (ui/render-board (game :board))]
     (let [updated-game
           (-> game
@@ -18,4 +17,3 @@
           (recur updated-game _))
         (do
           (ui/render-game-over-msg (game/end-game-state updated-game)))))))
-
