@@ -17,18 +17,6 @@
     (validator value)
     [nil error]))
 
-;(defn valid-move? [game]
-;  (->> (valid-ui-choice? game)
-;       (valid-or-error open-square?)))
-;
-;(defn validator [game]
-;  (let  [[result err] (valid-move? game)]
-;      (if (nil? result)
-;        (do
-;          (println err)
-;          result)
-;        result)))
-;
 
 
 
