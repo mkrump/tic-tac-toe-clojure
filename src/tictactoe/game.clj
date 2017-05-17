@@ -9,15 +9,19 @@
   (* -1 player))
 
 (defn get-move [game]
-  (assoc game :move (user-input/get-user-move)))
-
-(defn validate-move [game]
-  (let [[move error]
-        (->> (validation/valid-ui-choice? #(game :move) (game :ui-board))
-             (validation/valid-or-error #(validation/open-square? (game :move) (game :board))))]
-    (if (nil? move)
-      (get-move game)
-      (assoc game :move move))))
+  (let [{ui-board :ui-board board :board} game]
+    (loop [proposed-move (user-input/get-user-move)]
+      (let [results
+            (->>
+              [proposed-move nil]
+              (validation/valid-or-error #(validation/valid-ui-choice? % ui-board))
+              (validation/valid-or-error #(validation/open-square? (ui/ui->board %) board)))]
+          (let [[move error] results]
+            (if (nil? move)
+              (do
+                (println error)
+                (recur (user-input/get-user-move)))
+              (assoc game :move (ui/ui->board proposed-move))))))))
 
 (defn game-over? [game]
   (detect-board-state/game-over?
