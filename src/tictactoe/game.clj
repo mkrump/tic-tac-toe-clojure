@@ -2,7 +2,7 @@
   (:require [tictactoe.user-input-validation :as validation])
   (:require [tictactoe.user-input :as user-input])
   (:require [tictactoe.board :as board])
-  (:require [tictactoe.ui :as ui])
+  (:require [tictactoe.console-ui :as ui])
   (:require [tictactoe.detect-board-state :as detect-board-state])
   (:require [tictactoe.board-translators :as board-translators]))
 

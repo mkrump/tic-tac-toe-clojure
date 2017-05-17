@@ -1,4 +1,4 @@
-(ns tictactoe.ui
+(ns tictactoe.console-ui
   (:require [tictactoe.board-translators :as board-translators])
   (:require [clojure.string :as string]))
 

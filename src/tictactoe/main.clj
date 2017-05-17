@@ -1,5 +1,5 @@
 (ns tictactoe.main
-  (:require [tictactoe.ui :as ui])
+  (:require [tictactoe.console-ui :as ui])
   (:require [tictactoe.game :as game])
   (:gen-class))
 
