@@ -50,3 +50,7 @@
     (println (str (end-game-state :winner) "'s Win!"))
     (println (str "Tie game!"))))
 
+(defn redraw-board [board]
+  (ui-pause 500)
+  (clear-screen)
+  (render-board board))
