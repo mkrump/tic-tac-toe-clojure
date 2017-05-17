@@ -7,8 +7,9 @@
       [nil "Square occupied."]
       [move nil]))
 
-(defn valid-ui-choice? [move ui-board]
-    (if (contains? (set (:board-contents ui-board)) move)
+(defn valid-console-ui-choice? [move ui-board]
+    (if (or (integer? move)
+            (contains? (set (:board-contents ui-board)) move))
       [move nil]
       [nil "Choice not available."]))
 

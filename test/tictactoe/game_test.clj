@@ -45,6 +45,9 @@
 (deftest get-user-input-test
   (let [game {:ui->board {"A" 0 "B" 1}
               :ui-board {:board-contents ["A" "B"]}
+              :current-player 1
+              :players {:1  (tictactoe.human-console-player/human-console-player "X")
+                        :-1 (tictactoe.human-console-player/human-console-player "O")}
               :board {:board-contents [0 1]}}]
     (testing "Valid move"
       (is (= (assoc game :move 0)
@@ -63,3 +66,4 @@
                (with-out-str
                  (with-in-str "B\nA\n" (get-move game)))
                "Square occupied."))))))
+

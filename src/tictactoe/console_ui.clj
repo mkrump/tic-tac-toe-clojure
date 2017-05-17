@@ -42,8 +42,15 @@
   (print "\033c")
   (flush))
 
+(defn- print-then-flush [msg]
+  (print msg)
+  (flush))
+
 (defn render-msg [msg]
   (println msg))
+
+(defn render-move-request-msg []
+  (print-then-flush "Select an open square: "))
 
 (defn render-game-over-msg [end-game-state]
   (if (contains? end-game-state :winner)
