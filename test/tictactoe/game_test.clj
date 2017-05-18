@@ -12,7 +12,7 @@
   (testing "A switching player 2 results in player 1"
     (is (= 1 (switch-player -1)))))
 
-(deftest player1-wins-test
+(deftest end-game-state-player1-wins-test
   (let [game {:board
                 {:board-contents [1 1 1
                                   0 0 0
@@ -24,7 +24,7 @@
          (is (= {:winner "X"}
                 (end-game-state game))))))
 
-(deftest player2-wins-test
+(deftest end-game-state-player2-wins-test
   (let [game {:board
               {:board-contents [-1 -1 -1
                                  0 0 0
@@ -36,7 +36,7 @@
       (is (= {:winner "O"}
              (end-game-state game))))))
 
-(deftest tie-test
+(deftest end-game-state-tie-test
   (let [game {:board
               {:board-contents [1 1 -1
                                 -1 -1 1

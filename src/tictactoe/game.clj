@@ -27,9 +27,9 @@
 (defn switch-player [player]
   (* -1 player))
 
-(defn generate-player-mapping [players]
+(defn- generate-player-mapping [players]
   {:-1 (get-in players [:-1 :marker])
-   :1 (get-in players [:1 :marker])})
+    :1 (get-in players [:1 :marker])})
 
 (defn initialize-new-game []
   (let [board (board/generate-board 3)
