@@ -6,12 +6,12 @@
 (defn -main []
   (ui/clear-screen)
   (loop [game (game/initialize-new-game)
-         _ (ui/render-board (game :board))]
+         _ (ui/render-board (game :board) (game :player-symbol-mapping))]
     (let [updated-game
           (-> game
               (game/get-move)
               (game/update-game))]
-      (ui/redraw-board (updated-game :board))
+      (ui/redraw-board (updated-game :board) (updated-game :player-symbol-mapping))
       (if (false? (game/game-over? updated-game))
         (do
           (recur updated-game _))

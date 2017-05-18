@@ -27,20 +27,23 @@
 (defn switch-player [player]
   (* -1 player))
 
-(defn generate-player-mapping [game]
-  {(keyword (get-in game [:players :-1 :marker])) -1
-   (keyword (get-in game [:players :1 :marker])) 1})
+(defn generate-player-mapping [players]
+  {:-1 (get-in players [:-1 :marker])
+   :1 (get-in players [:1 :marker])})
 
 (defn initialize-new-game []
   (let [board (board/generate-board 3)
-        ui-board (ui/board->ui board)]
+        players {:1  (human-console-player/human-console-player "X")
+                 :-1 (computer-random-player/computer-random-player "O")}
+        player-symbol-mapping (generate-player-mapping players)]
+
     {:board          board
-     :ui-board       ui-board
      :ui->board      ui/ui->board
      :move           nil
      :current-player 1
-     :players        {:1 (human-console-player/human-console-player "X")
-                      :-1 (computer-random-player/computer-random-player "O")}}))
+     :players        players
+     :player-symbol-mapping player-symbol-mapping
+     :ui-board       (ui/board->ui board player-symbol-mapping)}))
 
 (defn game-over? [game]
   (detect-board-state/game-over?
@@ -82,3 +85,4 @@
               (ui/render-msg error)
               (recur (ui/render-move-request-msg) (request-player-move game)))
             (assoc game :move move)))))))
+

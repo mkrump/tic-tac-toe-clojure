@@ -15,10 +15,8 @@
 (defn- lazy-seq->string [lz-seq]
   (apply str lz-seq))
 
-(defn board->ui [board]
+(defn board->ui [board player-symbol-mapping]
   (let [{board-contents :board-contents} board
-         ;TODO LEFT OFF: WANT TO SUB PLAYER-SYMBOL-MAPPING AS A PARAM
-         player-symbol-mapping {:1 "X" :-1 "O"}
          translated-board (map #(board-translators/apply-ui-mapping board-contents % player-symbol-mapping) (range (count board-contents)))]
     (assoc board :board-contents translated-board)))
 
@@ -31,9 +29,9 @@
          (map render-row)
          (lazy-seq->string))))
 
-(defn render-board [board]
-  (->> board
-       (board->ui)
+(defn render-board [board player-symbol-mapping]
+  (-> board
+       (board->ui player-symbol-mapping)
        (board->string)
        (print))
   (flush))
@@ -60,7 +58,7 @@
     (println (str (end-game-state :winner) "'s Win!"))
     (println (str "Tie game!"))))
 
-(defn redraw-board [board]
+(defn redraw-board [board player-symbol-mapping]
   (ui-pause 500)
   (clear-screen)
-  (render-board board))
+  (render-board board player-symbol-mapping))
