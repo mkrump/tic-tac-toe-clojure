@@ -68,21 +68,26 @@
       (not= 0 winner) {:winner (get-in game [:players (?->keyword winner) :marker])}
       (true? tie) {:tie ""})))
 
-(defn get-move [game]
+
+(defn move-validation [proposed-move game]
   (let [{ui-board :ui-board board
                   :board ui->board
                   :ui->board} game]
-    (loop [_ (ui/render-move-request-msg)
-           proposed-move (request-player-move game)]
-      (let [validation-results
-            (->>
-              [proposed-move nil]
-              (validation/valid-or-error #(validation/valid-console-ui-choice? % ui-board))
-              (validation/valid-or-error #(validation/open-square? (translate-move-if-needed game %) board)))]
-        (let [[move error] validation-results]
-          (if (nil? move)
-            (do
-              (ui/render-msg error)
-              (recur (ui/render-move-request-msg) (request-player-move game)))
-            (assoc game :move move)))))))
+    (->>
+      [proposed-move nil]
+      (validation/valid-or-error #(validation/valid-console-ui-choice? % ui-board))
+      (validation/valid-or-error #(validation/open-square? (translate-move-if-needed game %) board)))))
+
+
+(defn get-move [game]
+  (loop [_ (ui/render-move-request-msg)
+         proposed-move (request-player-move game)]
+    (let [validation-results (move-validation proposed-move game)]
+      (let [[move error] validation-results]
+        (if (nil? move)
+          (do
+            (ui/render-msg error)
+            (recur (ui/render-move-request-msg) (request-player-move game)))
+          (assoc game :move move))))))
+
 
