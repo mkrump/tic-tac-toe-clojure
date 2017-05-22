@@ -8,6 +8,9 @@
     (or (= 1 board-square)
         (= -1 board-square))))
 
+(defn open-squares [board]
+  (keep-indexed #(if (zero? %2) %1) (:board-contents board)))
+
 (defn make-move [board move player]
   (assoc-in board [:board-contents move] player))
 

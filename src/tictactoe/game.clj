@@ -1,12 +1,12 @@
 (ns tictactoe.game
   (:require [tictactoe.user-input-validation :as validation])
-  (:require [tictactoe.user-input :as user-input])
   (:require [tictactoe.board :as board])
   (:require [tictactoe.console-ui :as ui])
   (:require [tictactoe.detect-board-state :as detect-board-state])
   (:require [tictactoe.board-translators :as board-translators])
   (:require [tictactoe.human-console-player :as human-console-player])
-  (:require [tictactoe.computer-random-player :as computer-random-player]))
+  (:require [tictactoe.computer-random-player :as computer-random-player])
+  (:require [tictactoe.computer-minimax-player-blah :as computer-minimax-player]))
 
 (defn- ?->keyword [value]
   (keyword (str value)))
@@ -17,7 +17,7 @@
 
 (defn- request-player-move [game]
   (let [current-player (get-current-player game)]
-    ((:move current-player) (get-in game [:board :board-contents]))))
+    ((:move current-player) (:board game) (:current-player game))))
 
 (defn- translate-move-if-needed [game move]
   (if (integer? move)
@@ -34,7 +34,7 @@
 (defn initialize-new-game []
   (let [board (board/generate-board 3)
         players {:1  (human-console-player/human-console-player "X")
-                 :-1 (computer-random-player/computer-random-player "O")}
+                 :-1 (computer-minimax-player/computer-minimax-player "O")}
         player-symbol-mapping (generate-player-mapping players)]
 
     {:board          board

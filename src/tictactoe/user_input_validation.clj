@@ -1,5 +1,4 @@
 (ns tictactoe.user-input-validation
-  (:require [tictactoe.user-input :as user-input])
   (:require [tictactoe.board :as board]))
 
 (defn open-square? [move board]
