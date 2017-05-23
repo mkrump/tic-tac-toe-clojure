@@ -31,5 +31,5 @@
 (deftest open-squares-test
   (testing "The indices of all zero squares should be returned"
     (let [board [0 0 0 -1 1 0 0 0 0]]
-      (is (= [0 1 2 5 6 7 8] (open-squares board))))))
+      (is (= [0 1 2 5 6 7 8] (open-squares {:board-contents board}))))))
 
