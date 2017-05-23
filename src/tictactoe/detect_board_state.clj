@@ -51,9 +51,12 @@
   (and (board-full? board)
        (= 0 (winner board gridsize))))
 
+(defn- winner? [board gridsize]
+  (not= 0 (winner board gridsize)))
+
 (defn game-over? [board gridsize]
   (if (or
-        (not= 0 (winner board gridsize))
+        (winner? board gridsize)
         (tie? board gridsize))
       true
       false))
