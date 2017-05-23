@@ -8,11 +8,8 @@
   (:require [tictactoe.computer-random-player :as computer-random-player])
   (:require [tictactoe.computer-minimax-player :as computer-minimax-player]))
 
-(defn- ?->keyword [value]
-  (keyword (str value)))
-
 (defn- get-current-player [game]
-  (let [current-player (?->keyword (:current-player game))]
+  (let [current-player (:current-player game)]
     (get-in game [:players current-player])))
 
 (defn- request-player-move [game]
@@ -28,13 +25,13 @@
   (* -1 player))
 
 (defn- generate-player-mapping [players]
-  {:-1 (get-in players [:-1 :marker])
-    :1 (get-in players [:1 :marker])})
+  {-1 (get-in players [-1 :marker])
+   1 (get-in players [1 :marker])})
 
 (defn initialize-new-game []
   (let [board (board/generate-board 3)
-        players {:1  (human-console-player/human-console-player "X")
-                 :-1 (computer-minimax-player/computer-minimax-player "O")}
+        players {1  (human-console-player/human-console-player "X")
+                 -1 (computer-minimax-player/computer-minimax-player "O")}
         player-symbol-mapping (generate-player-mapping players)]
 
     {:board          board
@@ -65,7 +62,7 @@
         winner (detect-board-state/winner board-contents gridsize)
         tie (detect-board-state/tie? board-contents gridsize)]
     (cond
-      (not= 0 winner) {:winner (get-in game [:players (?->keyword winner) :marker])}
+      (not= 0 winner) {:winner (get-in game [:players winner :marker])}
       (true? tie) {:tie ""})))
 
 

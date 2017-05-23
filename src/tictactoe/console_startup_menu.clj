@@ -40,7 +40,7 @@
     (cond
       (not (nil? (re-find #"^[A-Z]$" input)))
       (assoc player :marker (clojure.string/trim input))
-      (= "\n" input) player
+      (= "" input) player
       :else
         (do
           (println "Not a Valid choice. Please choose again.")

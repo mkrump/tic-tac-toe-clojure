@@ -10,7 +10,7 @@
 
 
 (defn get-marker [square-contents player-mapping]
-  ((keyword (str square-contents)) player-mapping))
+  (player-mapping square-contents))
 
 (defn red-marker [marker]
   (str "\033[1;31m" marker "\033[0m"))
