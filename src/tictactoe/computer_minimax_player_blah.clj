@@ -68,7 +68,8 @@
 (minimax-score (board/make-move test-board 0 1) (* -1 1) 1)
 
 (def test-player -1)
-(map #(vector % (minimax-score (board/make-move test-board2 %1 %2) (* -1 %2) 1)) (board/open-squares test-board2) (iterate identity test-player))
+(map #(vector % (* -1 (minimax-score (board/make-move test-board %1 %2) (* -1 %2) 1)))
+     (board/open-squares test-board) (iterate identity test-player))
 
 ;(minimax-score #(board/make-move test-board % -1) (board/open-squares test-board))
 
