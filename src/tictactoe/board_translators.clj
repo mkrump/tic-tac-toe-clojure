@@ -8,6 +8,7 @@
 ;
 ;(defn inverse-ui-mapping [char] (- (int char) 97))
 
+
 (defn get-marker [square-contents player-mapping]
   ((keyword (str square-contents)) player-mapping))
 
