@@ -68,6 +68,17 @@
        (testing "If win in one is available the computer should take that move"
          (is (= 8 move)))))
 
+(deftest minimax-player-win-test-3
+  (let [minimax-player (computer-minimax-player "X")
+        board {:board-contents
+                         [-1 -1 0
+                          1 1 0
+                          0 0 0]
+               :gridsize 3}
+        move   ((:move minimax-player) board -1)]
+    (testing "If win in one is available the computer should take that move"
+      (is (= 2 move)))))
+
 (deftest minimax-player-block-win-test
   (let [minimax-player (computer-minimax-player "X")
         board {:board-contents
@@ -76,7 +87,7 @@
                 0 0 0]
                :gridsize 3}
         move   ((:move minimax-player) board -1)]
-       (testing "If win in one is available the computer should take that move"
+       (testing "If win in one is available the computer should block that move"
          (is (= 8 move)))))
 
 
