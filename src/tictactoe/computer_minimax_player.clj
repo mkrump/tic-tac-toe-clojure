@@ -28,7 +28,7 @@
   (pmap #(vector % (* -1 (minimax-move-score (board/make-move board %1 %2) (* -1 %2) 1)))
        (board/open-squares board) (iterate identity current-player)))
 
-(defn- minimax-move [board current-player]
+(defn minimax-move [board current-player]
   ((apply max-key #(get % 1) (minimax-score-moves board current-player)) 0))
 
 (defn computer-minimax-player [marker]
