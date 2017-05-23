@@ -33,8 +33,8 @@
 
 (defn initialize-new-game []
   (let [board (board/generate-board 3)
-        players {:-1  (human-console-player/human-console-player "X")
-                 :1 (computer-minimax-player/computer-minimax-player "O")}
+        players {:1  (human-console-player/human-console-player "X")
+                 :-1 (computer-minimax-player/computer-minimax-player "O")}
         player-symbol-mapping (generate-player-mapping players)]
 
     {:board          board
