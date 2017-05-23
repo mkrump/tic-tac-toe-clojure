@@ -1,20 +1,10 @@
 (ns tictactoe.console-ui-test
   (:require [clojure.test :refer :all]
-            [tictactoe.console-ui :refer :all]))
+            [tictactoe.console-ui :refer :all]
+            [tictactoe.board-translators :as board-translators]))
 
 (deftest render-ui-test
   (testing "A vector of length n^2 should return a string nxn ttt board"
-    (is (= (str "  2  |     |  2  \n"
-                "- - - - - - - - -\n"
-                "     |  2  |     \n"
-                "- - - - - - - - -\n"
-                "  1  |  2  |  1  \n"
-                "- - - - - - - - -\n")
-           (board->string {:board-contents ["2" " " "2" " " "2" " " "1" "2" "1"] :gridsize 3})))))
-
-
-(deftest render-board-default-player-mapping-test
-  (testing "If no player mapping supplied Xs and Os will be used for player symbols"
     (is (= (str "  X  |     |  O  \n"
                 "- - - - - - - - -\n"
                 "     |  X  |     \n"
@@ -25,14 +15,17 @@
 
 (deftest render-board-test
   (testing "render-board should print ui's version of tictactoe board to console"
-    (is (= (str "  X  |  2  |  O  \n"
-                "- - - - - - - - -\n"
-                "  4  |  5  |  6  \n"
-                "- - - - - - - - -\n"
-                "  7  |  8  |  X  \n"
-                "- - - - - - - - -\n")
-           (with-out-str
-             (render-board {:board-contents [1 0 -1 0 0 0 0 0 1] :gridsize 3} {:1 "X" :-1 "O"}))))))
+    (let [green-x (board-translators/green-marker "X")
+          red-o (board-translators/red-marker "O")]
+        (is (= (str "  "green-x"  |  2  |  " red-o "  \n"
+                    "- - - - - - - - -\n"
+                    "  4  |  5  |  6  \n"
+                    "- - - - - - - - -\n"
+                    "  7  |  8  |  " green-x "  \n"
+                    "- - - - - - - - -\n")
+               (with-out-str
+                 (render-board {:board-contents [1 0 -1 0 0 0 0 0 1] :gridsize 3} {:1 "X" :-1 "O"})))))))
+
 
 (deftest clear-screen-test
   (testing "print ANSI clear screen escape code '\033c' "

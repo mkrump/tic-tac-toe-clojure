@@ -12,15 +12,17 @@
 
 (deftest board->ui-occupied-player1-test
   (testing "An occupied board square should be mapped to the players symbol in ui (X=1 O=2)"
-    (is (= "X" (apply-ui-mapping [0 0 1
-                                  1 -1 0
-                                  0 0 0] 2 player-mapping)))))
+    (is (= (green-marker "X")
+           (apply-ui-mapping [0 0 1
+                              1 -1 0
+                              0 0 0] 2 player-mapping)))))
 
 (deftest board->ui-occupied-player2-test
   (testing "An occupied board square should be mapped to the players symbol in ui (X=1 O=2)"
-    (is (= "O" (apply-ui-mapping [0 0 1
-                                   1 -1 0
-                                   0 0 0] 4 player-mapping)))))
+    (is (= (red-marker "O")
+           (apply-ui-mapping [0 0 1
+                              1 -1 0
+                              0 0 0] 4 player-mapping)))))
 
 (deftest ui->board
   (testing "A ui square should be mapped back to the index of its respective board sqaure"
