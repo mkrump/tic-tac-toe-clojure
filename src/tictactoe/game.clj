@@ -12,6 +12,9 @@
   (let [current-player (:current-player game)]
     (get-in game [:players current-player])))
 
+(defn- get-current-player-marker [game]
+  (get-in game [:players (game :current-player) :marker]))
+
 (defn- request-player-move [game]
   (let [current-player (get-current-player game)]
     ((:move current-player) (:board game) (:current-player game))))
@@ -81,14 +84,19 @@
 
 
 (defn get-move [game]
-  (loop [_ (ui/render-move-request-msg)
+  (loop [current-player-marker (get-current-player-marker game)
+         _ (ui/render-move-request-msg current-player-marker)
          proposed-move (request-player-move game)]
     (let [validation-results (move-validation proposed-move game)]
       (let [[move error] validation-results]
         (if (nil? move)
           (do
             (ui/render-msg error)
-            (recur (ui/render-move-request-msg) (request-player-move game)))
+            (recur
+              current-player-marker
+              (ui/render-move-request-msg current-player-marker)
+              (request-player-move game)))
           (assoc game :move move))))))
+
 
 

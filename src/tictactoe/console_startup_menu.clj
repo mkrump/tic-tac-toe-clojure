@@ -3,10 +3,10 @@
             [tictactoe.computer-minimax-player :as computer-minimax-player]
             [tictactoe.console-ui :as console-ui]))
 
-(def human-player
+(def ^:private human-player
   (partial human-console-player/human-console-player))
 
-(def computer-player
+(def ^:private computer-player
   (partial computer-minimax-player/computer-minimax-player))
 
 (defn- upcase-letter? [s]
@@ -39,11 +39,11 @@
          "1. Human\n"
          "2. Computer\n")))
 
-(defn choose-marker-message [player player-number]
+(defn choose-marker-message [player-number]
   (println
     (str "Select a letter to use as "
          "Player " player-number "'s"
-         " marker")))
+         " marker:")))
 
 (defn get-opponent-marker [players player-number]
   (let [opponent (mod (inc player-number) 2)]
@@ -54,8 +54,8 @@
   (select-player-message player-number)
   (let [input (read-line)]
     (cond
-      (= "1" input) computer-player
-      (= "2" input) human-player
+      (= "1" input) human-player
+      (= "2" input) computer-player
       :else
       (do
         (invalid-choice-message)
@@ -65,7 +65,7 @@
   (console-ui/clear-screen)
   (let [player (players player-number)
         oppenent-marker (get-opponent-marker players player-number)]
-    (choose-marker-message player player-number)
+    (choose-marker-message player-number)
     (let [marker-choice (sanitize-input (read-line))]
       (cond
         (marker-already-chosen? marker-choice oppenent-marker)
