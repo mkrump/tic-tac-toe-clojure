@@ -5,8 +5,8 @@
   (:require [tictactoe.detect-board-state :as detect-board-state])
   (:require [tictactoe.board-translators :as board-translators])
   (:require [tictactoe.human-console-player :as human-console-player])
-  (:require [tictactoe.computer-random-player :as computer-random-player])
-  (:require [tictactoe.computer-minimax-player :as computer-minimax-player]))
+  (:require [tictactoe.computer-minimax-player :as computer-minimax-player])
+  (:require [tictactoe.console-startup-menu :as startup-menu]))
 
 (defn- get-current-player [game]
   (let [current-player (:current-player game)]
@@ -28,10 +28,14 @@
   {-1 (get-in players [-1 :marker])
    1 (get-in players [1 :marker])})
 
+(defn- startup-menu []
+  (let [players (startup-menu/run-startup-menus)]
+    (ui/clear-screen)
+    (clojure.set/rename-keys players {1 -1 2 1})))
+
 (defn initialize-new-game []
   (let [board (board/generate-board 3)
-        players {1  (human-console-player/human-console-player "X")
-                 -1 (computer-minimax-player/computer-minimax-player "O")}
+        players (startup-menu)
         player-symbol-mapping (generate-player-mapping players)]
 
     {:board          board
