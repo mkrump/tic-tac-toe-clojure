@@ -18,7 +18,7 @@
           (do
             (let [move (first candidate-moves)
                   updated-board (board/make-move board move current-player)
-                  score (* -1 (minimax-move-score updated-board (* -1 current-player) 1))]
+                  score (* -1 (minimax-move-score updated-board (* -1 current-player) (inc depth)))]
               (if (> score best-score)
                 (recur (rest candidate-moves) score (inc depth))
                 (recur (rest candidate-moves) best-score (inc depth)))))
