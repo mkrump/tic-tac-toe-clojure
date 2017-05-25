@@ -1,4 +1,4 @@
-(ns tictactoe.ui
+(ns tictactoe.console-ui
   (:require [tictactoe.board-translators :as board-translators])
   (:require [clojure.string :as string]))
 
@@ -15,9 +15,10 @@
 (defn- lazy-seq->string [lz-seq]
   (apply str lz-seq))
 
-(defn board->ui [board]
-  (let [{board-contents :board-contents} board]
-    (assoc board :board-contents (map #(board-translators/apply-ui-mapping board-contents %) (range (count board-contents))))))
+(defn board->ui [board player-symbol-mapping]
+  (let [{board-contents :board-contents} board
+         translated-board (map #(board-translators/apply-ui-mapping board-contents % player-symbol-mapping) (range (count board-contents)))]
+    (assoc board :board-contents translated-board)))
 
 (defn ui->board [move] (board-translators/inverse-ui-mapping move))
 
@@ -28,9 +29,9 @@
          (map render-row)
          (lazy-seq->string))))
 
-(defn render-board [board]
-  (->> board
-       (board->ui)
+(defn render-board [board player-symbol-mapping]
+  (-> board
+       (board->ui player-symbol-mapping)
        (board->string)
        (print))
   (flush))
@@ -42,15 +43,22 @@
   (print "\033c")
   (flush))
 
+(defn- print-then-flush [msg]
+  (print msg)
+  (flush))
+
 (defn render-msg [msg]
   (println msg))
+
+(defn render-move-request-msg []
+  (print-then-flush "Select an open square: "))
 
 (defn render-game-over-msg [end-game-state]
   (if (contains? end-game-state :winner)
     (println (str (end-game-state :winner) "'s Win!"))
     (println (str "Tie game!"))))
 
-(defn redraw-board [board]
+(defn redraw-board [board player-symbol-mapping]
   (ui-pause 500)
   (clear-screen)
-  (render-board board))
+  (render-board board player-symbol-mapping))
