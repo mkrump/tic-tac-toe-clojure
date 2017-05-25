@@ -44,7 +44,7 @@
     {:board          board
      :ui->board      ui/ui->board
      :move           nil
-     :current-player 1
+     :current-player -1
      :players        players
      :player-symbol-mapping player-symbol-mapping
      :ui-board       (ui/board->ui board player-symbol-mapping)}))

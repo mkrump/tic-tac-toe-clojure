@@ -18,15 +18,16 @@
           (do
             (let [move (first candidate-moves)
                   updated-board (board/make-move board move current-player)
-                  score (* -1 (minimax-move-score updated-board (* -1 current-player) 1))]
+                  score (* -1 (minimax-move-score updated-board (* -1 current-player) (inc depth)))]
               (if (> score best-score)
                 (recur (rest candidate-moves) score (inc depth))
                 (recur (rest candidate-moves) best-score (inc depth)))))
           best-score))))
 
 (defn- minimax-score-moves [board current-player]
-  (pmap #(vector % (* -1 (minimax-move-score (board/make-move board %1 %2) (* -1 %2) 1)))
-       (board/open-squares board) (iterate identity current-player)))
+  (doall
+    (pmap #(vector % (* -1 (minimax-move-score (board/make-move board %1 %2) (* -1 %2) 1)))
+       (board/open-squares board) (iterate identity current-player))))
 
 (defn minimax-move [board current-player]
   ((apply max-key #(get % 1) (minimax-score-moves board current-player)) 0))
