@@ -38,7 +38,7 @@
 (defn minimax-move [board current-player]
   ((apply max-key #(get % 1) (minimax-score-moves board current-player)) 0))
 
-(defn computer-minimax-player-ab [marker]
+(defn computer-minimax-ab-player [marker]
   {:marker marker :move minimax-move})
 
 ;Short circuit reduce w/ reduced

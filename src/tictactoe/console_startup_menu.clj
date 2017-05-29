@@ -1,13 +1,13 @@
 (ns tictactoe.console-startup-menu
   (:require [tictactoe.human-console-player :as human-console-player]
-            [tictactoe.computer-minimax-player :as computer-minimax-player]
+            [tictactoe.computer-minimax-ab-player :as computer-minimax-player]
             [tictactoe.console-ui :as console-ui]))
 
 (def ^:private human-player
   (partial human-console-player/human-console-player))
 
 (def ^:private computer-player
-  (partial computer-minimax-player/computer-minimax-player))
+  (partial computer-minimax-player/computer-minimax-ab-player))
 
 (defn- upcase-letter? [s]
   (not (nil? (re-find #"^[A-Z]$" s))))

@@ -1,8 +1,8 @@
 (ns tictactoe.computer-minimax-player-test
   (:require [clojure.test :refer :all]
-            [tictactoe.computer-minimax-player :refer :all]))
+            [tictactoe.computer-minimax-ab-player :refer :all]))
 
-(def minimax-player (computer-minimax-player "X`"))
+(def minimax-player (computer-minimax-ab-player "X`"))
 
 (deftest minimax-player-move-test-1
   (let [board {:board-contents
