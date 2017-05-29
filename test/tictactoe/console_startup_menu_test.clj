@@ -1,7 +1,7 @@
 (ns tictactoe.console-startup-menu-test
   (:require [clojure.test :refer :all]
             [tictactoe.human-console-player :as human-console-player]
-            [tictactoe.computer-minimax-player :as computer-minimax-player]
+            [tictactoe.computer-minimax-ab-player :as computer-minimax-ab-player]
             [tictactoe.console-startup-menu :refer :all]
             [tictactoe.console-ui :as console-ui]))
 
@@ -9,7 +9,7 @@
   (partial human-console-player/human-console-player))
 
 (def ^:private computer-player
-  (partial computer-minimax-player/computer-minimax-player))
+  (partial computer-minimax-ab-player/computer-minimax-ab-player))
 
 (def players {1 human-player 2 computer-player})
 
