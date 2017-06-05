@@ -1,12 +1,11 @@
 (ns tictactoe.game
-  (:require [tictactoe.user-input-validation :as validation])
-  (:require [tictactoe.board :as board])
-  (:require [tictactoe.console-ui :as ui])
-  (:require [tictactoe.detect-board-state :as detect-board-state])
-  (:require [tictactoe.board-translators :as board-translators])
-  (:require [tictactoe.human-console-player :as human-console-player])
-  (:require [tictactoe.computer-minimax-player :as computer-minimax-player])
-  (:require [tictactoe.console-startup-menu :as startup-menu]))
+  (:require [tictactoe.user-input-validation :as validation]
+            [tictactoe.board :as board]
+            [tictactoe.console-ui :as ui]
+            [tictactoe.detect-board-state :as detect-board-state]
+            [tictactoe.board-translators :as board-translators]
+            [tictactoe.human-console-player :as human-console-player]
+            [tictactoe.computer-minimax-ab-player :as computer-minimax-player]))
 
 (defn- get-current-player [game]
   (let [current-player (:current-player game)]
@@ -29,25 +28,41 @@
 
 (defn- generate-player-mapping [players]
   {-1 (get-in players [-1 :marker])
-   1 (get-in players [1 :marker])})
+   1  (get-in players [1 :marker])})
 
-(defn- startup-menu []
-  (let [players (startup-menu/run-startup-menus)]
-    (ui/clear-screen)
-    (clojure.set/rename-keys players {1 -1 2 1})))
+(def ^:private human-player
+  (partial human-console-player/human-console-player))
 
-(defn initialize-new-game []
+(def ^:private computer-player
+  (partial computer-minimax-player/computer-minimax-ab-player))
+
+(def ^:private player-types
+  {:human-player human-player, :computer-player computer-player})
+
+(defn- create-player [player player-choices]
+  (let [player-type (:player-type player)
+        player-marker (:marker player)]
+    ((player-choices player-type) player-marker)))
+
+(defn- gen-player-map [startup-menu-choices player-types]
+  (clojure.set/rename-keys
+    (into {} (for [[k v] startup-menu-choices]
+               [k (create-player v player-types)]))
+    {1 -1 2 1}))
+
+
+(defn initialize-new-game [players]
   (let [board (board/generate-board 3)
-        players (startup-menu)
-        player-symbol-mapping (generate-player-mapping players)]
+        board-players (gen-player-map players player-types)
+        player-symbol-mapping (generate-player-mapping board-players)]
 
-    {:board          board
-     :ui->board      ui/ui->board
-     :move           nil
-     :current-player -1
-     :players        players
+    {:board                 board
+     :ui->board             ui/ui->board
+     :move                  nil
+     :current-player        -1
+     :players               board-players
      :player-symbol-mapping player-symbol-mapping
-     :ui-board       (ui/board->ui board player-symbol-mapping)}))
+     :ui-board              (ui/board->ui board player-symbol-mapping)}))
 
 (defn game-over? [game]
   (detect-board-state/game-over?
@@ -74,9 +89,9 @@
 
 
 (defn move-validation [proposed-move game]
-  (let [{ui-board :ui-board board
-                  :board ui->board
-                  :ui->board} game]
+  (let [{ui-board :ui-board
+         board :board
+         ui->board :ui->board} game]
     (->>
       [proposed-move nil]
       (validation/valid-or-error #(validation/valid-console-ui-choice? % ui-board))
@@ -97,6 +112,4 @@
               (ui/render-move-request-msg current-player-marker)
               (request-player-move game)))
           (assoc game :move move))))))
-
-
 

@@ -3,17 +3,8 @@
             [tictactoe.computer-minimax-ab-player :as computer-minimax-player]
             [tictactoe.console-ui :as console-ui]))
 
-(def ^:private human-player
-  (partial human-console-player/human-console-player))
-
-(def ^:private computer-player
-  (partial computer-minimax-player/computer-minimax-ab-player))
-
 (defn- upcase-letter? [s]
   (not (nil? (re-find #"^[A-Z]$" s))))
-
-(defn- create-player [players player-number marker]
-  ((players player-number) marker))
 
 (defn- sanitize-input [s]
   (-> s
@@ -46,7 +37,7 @@
          " marker:")))
 
 (defn get-opponent-marker [players player-number]
-  (let [opponent (mod (inc player-number) 2)]
+  (let [opponent (+ 1 (mod player-number 2))]
     (get-in players [opponent :marker])))
 
 (defn choose-player-type-menu [player-number]
@@ -54,8 +45,8 @@
   (select-player-message player-number)
   (let [input (read-line)]
     (cond
-      (= "1" input) human-player
-      (= "2" input) computer-player
+      (= "1" input) :human-player
+      (= "2" input) :computer-player
       :else
       (do
         (invalid-choice-message)
@@ -73,7 +64,7 @@
           (marker-already-chosen-message)
           (recur players player-number))
         (upcase-letter? marker-choice)
-        (create-player players player-number marker-choice)
+        marker-choice
         :else
         (do
           (invalid-choice-message)
@@ -81,8 +72,12 @@
 
 (defn run-startup-menus []
   (as-> {} players
-        (assoc players 1 (choose-player-type-menu 1))
-        (assoc players 1 (choose-marker-type-menu players 1))
-        (assoc players 2 (choose-player-type-menu 2))
-        (assoc players 2 (choose-marker-type-menu players 2))))
+        (assoc-in players [1 :player-type] (choose-player-type-menu 1))
+        (assoc-in players [1 :marker] (choose-marker-type-menu players 1))
+        (assoc-in players [2 :player-type] (choose-player-type-menu 2))
+        (assoc-in players [2 :marker] (choose-marker-type-menu players 2))))
 
+(defn startup-menu []
+  (let [players (run-startup-menus)]
+    (console-ui/clear-screen)
+    players))

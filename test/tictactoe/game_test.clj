@@ -53,9 +53,11 @@
               :players {1  (tictactoe.human-console-player/human-console-player "X")
                         -1 (tictactoe.human-console-player/human-console-player "O")}
               :board {:board-contents [0 1]}}]
-    (testing "Valid move"
-      (is (= (assoc game :move 0)
-             (with-in-str "A\n" (get-move game)))))
+    (testing "Valid move returns game map reflecting move"
+      (with-out-str
+        (let [move (with-in-str "A\n" (get-move game))]
+          (is (= (assoc game :move 0) move)))))
+
     (testing "A choice that is not part of UI should
               let user know choice is not valid and then re-prompt until correct"
        (is (= true

@@ -25,12 +25,13 @@
                 (with-out-str
                    (with-in-str "2"
                           (choose-player-type-menu 1)))))
-      (is (= (type human-player)
-             (type (with-in-str "1"
-                     (choose-player-type-menu 1)))))
-      (is (= (type computer-player)
-             (type (with-in-str "2"
-                     (choose-player-type-menu 1))))))))
+      (with-out-str
+        (let [choice (with-in-str "1" (choose-player-type-menu 1))]
+          (is (= :human-player choice))))
+
+      (with-out-str
+        (let [choice (with-in-str "2" (choose-player-type-menu 1))]
+          (is (= :computer-player choice)))))))
 
 (deftest choose-player-type-menu-invalid-test
   (testing "An invalid choice should reprompt the user to choose again"
@@ -87,14 +88,16 @@
 
 (deftest run-startup-menus-test
   (testing "If another player has already chosen a marker"
-    (let [valid-inputs "1\nX\n2\nO\n"
-          output (with-in-str valid-inputs
-                       (run-startup-menus))]
-      (is (= '(1 2) (keys output)))
-      (is (= "X" (get-in output [1 :marker])))
-      (is (not (nil? (get-in output [1 :move]))))
-      (is (= "O" (get-in output [2 :marker])))
-      (is (not (nil? (get-in output [2 :move])))))))
+    (with-out-str
+      (let [valid-inputs "1\nX\n2\nO\n"
+            output (with-in-str valid-inputs
+                         (run-startup-menus))]
+        (is (= '(1 2) (keys output)))
+        (is (= "X" (get-in output [1 :marker])))
+        (is (= :human-player (get-in output [1 :player-type])))
+        (is (= "O" (get-in output [2 :marker])))
+        (is (= :computer-player (get-in output [2 :player-type])))))))
+
 
 
 
