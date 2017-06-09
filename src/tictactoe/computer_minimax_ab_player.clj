@@ -18,8 +18,7 @@
           updated-alpha (max alpha move-score)
           updated-best-score (max best-score move-score)]
       (if (>= updated-alpha beta)
-        ;Short circuit reduce w/ reduced when alpha >= beta
-        ;https://stackoverflow.com/questions/7491360/how-do-you-return-from-a-function-early-in-clojure
+        ;Short circuit reduce when alpha >= beta
         (reduced [player depth alpha beta updated-best-score])
         [player depth updated-alpha beta updated-best-score])))
 
@@ -37,7 +36,7 @@
           (- (minimax-ab-move-score (board/make-move board % player) (- player) 1 (Double/NEGATIVE_INFINITY) (Double/POSITIVE_INFINITY))))
        (board/open-squares board)))
 
-(defn- minimax-move [board current-player]
+(defn minimax-move [board current-player]
   (let [moves (minimax-score-moves board current-player)
         max-score ((apply max-key #(get % 1) moves) 1)
         best-moves (filter #(= max-score (get % 1)) moves)]
