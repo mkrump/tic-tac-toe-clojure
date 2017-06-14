@@ -12,10 +12,10 @@
 
 
 (deftest valid-ui-choice-test
-    (testing "Valid ui choices should return the params and nil error message"
-      (is (= ["A" nil] (valid-ui-choice? "A" {:board-contents ["A" "B" "C"]})))))
+  (testing "Valid ui choices should return the params and nil error message"
+    (is (= ["A" nil] (valid-console-ui-choice? "A" {:board-contents ["A" "B" "C"]})))))
 
 (deftest invalid-ui-choice-test
-    (testing "Invalid choices should return nil and error message"
-      (is (= [nil "Choice not available."] (valid-ui-choice? "R" {:board-contents ["A" "B" "C"]})))))
+  (testing "Invalid choices should return nil and error message"
+    (is (= [nil "Choice not available."] (valid-console-ui-choice? "R" {:board-contents ["A" "B" "C"]})))))
 

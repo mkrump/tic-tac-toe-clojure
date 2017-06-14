@@ -39,7 +39,7 @@
   (loop [board board winning-positions (winning-positions gridsize)]
      (let [board-values (select-values board (first winning-positions))]
         (cond
-          (empty? board-values) 0
+          (empty? winning-positions) 0
           (= gridsize (sum board-values)) 1
           (= (- gridsize) (sum board-values)) -1
           :else (recur board (rest winning-positions))))))
@@ -51,12 +51,9 @@
   (and (board-full? board)
        (= 0 (winner board gridsize))))
 
-(defn- winner? [board gridsize]
-  (not= 0 (winner board gridsize)))
-
 (defn game-over? [board gridsize]
   (if (or
-        (winner? board gridsize)
+        (not= 0 (winner board gridsize))
         (tie? board gridsize))
       true
       false))
