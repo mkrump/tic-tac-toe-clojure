@@ -18,8 +18,8 @@
                                   0 0 0
                                   0 0 0]
                  :gridsize 3}
-              :players {:1 {:marker "X"}
-                        :-1 {:marker "O"}}}]
+              :players {1 {:marker "X"}
+                        -1 {:marker "O"}}}]
        (testing "If player 1 wins"
          (is (= {:winner "X"}
                 (end-game-state game))))))
@@ -30,8 +30,8 @@
                                  0 0 0
                                  0 0 0]
                :gridsize 3}
-              :players {:1 {:marker "X"}
-                        :-1 {:marker "O"}}}]
+              :players {1 {:marker "X"}
+                        -1 {:marker "O"}}}]
     (testing "If player 2 wins"
       (is (= {:winner "O"}
              (end-game-state game))))))
@@ -50,8 +50,8 @@
   (let [game {:ui->board {"A" 0 "B" 1}
               :ui-board {:board-contents ["A" "B"]}
               :current-player 1
-              :players {:1  (tictactoe.human-console-player/human-console-player "X")
-                        :-1 (tictactoe.human-console-player/human-console-player "O")}
+              :players {1  (tictactoe.human-console-player/human-console-player "X")
+                        -1 (tictactoe.human-console-player/human-console-player "O")}
               :board {:board-contents [0 1]}}]
     (testing "Valid move"
       (is (= (assoc game :move 0)
