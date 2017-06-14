@@ -5,8 +5,10 @@
 (defn square-occupied? [board square]
   (let [{board-contents :board-contents} board
         board-square (get board-contents square)]
-    (or (= 1 board-square)
-        (= -1 board-square))))
+    (if (nil? board-square)
+      nil
+      (or (= 1 board-square)
+          (= -1 board-square)))))
 
 (defn open-squares [board]
   (keep-indexed #(if (zero? %2) %1) (:board-contents board)))
