@@ -1,6 +1,6 @@
-(ns tictactoe.validation-test
+(ns tictactoe.tictactoe-console-game.validation-test
   (:require [clojure.test :refer :all]
-            [tictactoe.user-input-validation :refer :all]))
+            [tictactoe.tictactoe-console-game.user-input-validation :refer :all]))
 
 (deftest is-valid-move
     (testing "An open square (value = 0) should be a valid move"

@@ -1,6 +1,6 @@
-(ns tictactoe.board-test
+(ns tictactoe.tictactoe-core.board-test
   (:require [clojure.test :refer :all]
-            [tictactoe.board :refer :all]))
+            [tictactoe.tictactoe-core.board :refer :all]))
 
 (deftest square-occupied-player1-test
   (testing "Is a square is occupied (value of 1 or 2) should return true"

@@ -1,11 +1,12 @@
-(ns tictactoe.game
-  (:require [tictactoe.user-input-validation :as validation]
-            [tictactoe.board :as board]
-            [tictactoe.console-ui :as ui]
-            [tictactoe.detect-board-state :as detect-board-state]
-            [tictactoe.board-translators :as board-translators]
-            [tictactoe.human-console-player :as human-console-player]
-            [tictactoe.computer-minimax-ab-player :as computer-minimax-player]))
+(ns tictactoe.tictactoe-console-game.game
+  (:require [tictactoe.tictactoe-core.board :as board]
+            [tictactoe.tictactoe-core.detect-board-state :as detect-board-state]
+            [tictactoe.tictactoe-core.computer-minimax-ab-player :as computer-minimax-player]
+            [tictactoe.tictactoe-core.ttt-core :as ttt-core]
+            [tictactoe.tictactoe-console-game.user-input-validation :as validation]
+            [tictactoe.tictactoe-console-game.console-ui :as ui]
+            [tictactoe.tictactoe-console-game.board-translators :as board-translators]
+            [tictactoe.tictactoe-console-game.human-console-player :as human-console-player]))
 
 (defn- get-current-player [game]
   (let [current-player (:current-player game)]
@@ -22,9 +23,6 @@
   (if (integer? move)
     move
     ((:ui->board game) move)))
-
-(defn switch-player [player]
-  (* -1 player))
 
 (defn- generate-player-mapping [players]
   {-1 (get-in players [-1 :marker])
@@ -76,7 +74,7 @@
          current-player :current-player} game]
     (-> game
         (assoc :board (board/make-move board move current-player))
-        (assoc :current-player (switch-player current-player)))))
+        (assoc :current-player (ttt-core/switch-player current-player)))))
 
 (defn end-game-state [game]
   (let [board-contents (get-in game [:board :board-contents])

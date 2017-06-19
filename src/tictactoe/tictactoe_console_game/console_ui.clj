@@ -1,6 +1,6 @@
-(ns tictactoe.console-ui
-  (:require [tictactoe.board-translators :as board-translators])
-  (:require [clojure.string :as string]))
+(ns tictactoe.tictactoe-console-game.console-ui
+  (:require [tictactoe.tictactoe-console-game.board-translators :as board-translators]
+            [clojure.string :as string]))
 
 (defn- render-row-contents [row]
   (str "  " (string/join "  |  " row) "  \n"))

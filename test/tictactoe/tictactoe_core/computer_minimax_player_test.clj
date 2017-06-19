@@ -1,6 +1,6 @@
-(ns tictactoe.computer-minimax-player-test
+(ns tictactoe.tictactoe-core.computer-minimax-player-test
   (:require [clojure.test :refer :all]
-            [tictactoe.computer-minimax-ab-player :refer :all]))
+            [tictactoe.tictactoe-core.computer-minimax-ab-player :refer :all]))
 
 (def minimax-player (computer-minimax-ab-player "X`"))
 

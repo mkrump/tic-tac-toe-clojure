@@ -1,5 +1,5 @@
-(ns tictactoe.human-console-player
-  (:require [tictactoe.console-ui :as ui]))
+(ns tictactoe.tictactoe-console-game.human-console-player
+  (:require [tictactoe.tictactoe-console-game.human-console-player :as ui]))
 
 (defn make-console-move [board current-player]
   (read-line))

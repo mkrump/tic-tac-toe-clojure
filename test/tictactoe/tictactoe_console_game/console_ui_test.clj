@@ -1,7 +1,7 @@
-(ns tictactoe.console-ui-test
+(ns tictactoe.tictactoe-console-game.console-ui-test
   (:require [clojure.test :refer :all]
-            [tictactoe.console-ui :refer :all]
-            [tictactoe.board-translators :as board-translators]))
+            [tictactoe.tictactoe-console-game.console-ui :refer :all]
+            [tictactoe.tictactoe-console-game.board-translators :as board-translators]))
 
 (deftest render-ui-test
   (testing "A vector of length n^2 should return a string nxn ttt board"
