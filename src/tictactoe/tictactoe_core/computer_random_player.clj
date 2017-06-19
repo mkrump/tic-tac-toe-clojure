@@ -1,5 +1,5 @@
 (ns tictactoe.computer-random-player
-  (:require [tictactoe.board :as board]))
+  (:require [tictactoe.tictactoe-core.board :as board]))
 
 (defn random-move [board current-player]
   (rand-nth (board/open-squares board)))

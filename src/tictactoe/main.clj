@@ -1,7 +1,8 @@
 (ns tictactoe.main
-  (:require [tictactoe.console-ui :as ui]
-            [tictactoe.console-startup-menu :as startup-menu]
-            [tictactoe.game :as game])
+  (:require
+            [tictactoe.tictactoe-console-game.console-ui :as ui]
+            [tictactoe.tictactoe-console-game.console-startup-menu :as startup-menu]
+            [tictactoe.tictactoe-console-game.game :as game])
   (:gen-class))
 
 (defn -main []

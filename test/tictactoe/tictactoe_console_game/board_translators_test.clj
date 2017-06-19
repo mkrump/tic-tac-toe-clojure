@@ -1,6 +1,6 @@
-(ns tictactoe.board-translators-test
+(ns tictactoe.tictactoe-console-game.board-translators-test
   (:require [clojure.test :refer :all]
-            [tictactoe.board-translators :refer :all]))
+            [tictactoe.tictactoe-console-game.board-translators :refer :all]))
 
 (def player-mapping {1 "X" -1 "O"})
 

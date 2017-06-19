@@ -1,7 +1,7 @@
-(ns tictactoe.console-startup-menu
-  (:require [tictactoe.human-console-player :as human-console-player]
-            [tictactoe.computer-minimax-ab-player :as computer-minimax-player]
-            [tictactoe.console-ui :as console-ui]))
+(ns tictactoe.tictactoe-console-game.console-startup-menu
+  (:require [tictactoe.tictactoe-console-game.human-console-player :as human-console-player]
+            [tictactoe.tictactoe-core.computer-minimax-ab-player :as computer-minimax-player]
+            [tictactoe.tictactoe-console-game.console-ui :as console-ui]))
 
 (defn- upcase-letter? [s]
   (not (nil? (re-find #"^[A-Z]$" s))))

@@ -1,6 +1,6 @@
-(ns tictactoe.detect-board-state-test
+(ns tictactoe.tictactoe-core.detect-board-state-test
   (:require [clojure.test :refer :all]
-            [tictactoe.detect-board-state :refer :all]))
+            [tictactoe.tictactoe-core.detect-board-state :refer :all]))
 
 (deftest no-win-test
   (let [board  [-1 1 -1
