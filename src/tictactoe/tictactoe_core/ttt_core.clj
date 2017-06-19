@@ -6,7 +6,7 @@
 (defn switch-player [player]
   (* -1 player))
 
-(defn square-occupied [game-state move]
+(defn move-status [game-state move]
   (let [{:keys [board winner is-tie current-player]} game-state
          occupied (board/square-occupied? board move)
          occupied-response-map {nil :out-of-range false :valid-move true :occupied}]
