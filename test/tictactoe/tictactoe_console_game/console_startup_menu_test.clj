@@ -1,9 +1,9 @@
-(ns tictactoe.console-startup-menu-test
+(ns tictactoe.tictactoe-console-game.console-startup-menu-test
   (:require [clojure.test :refer :all]
-            [tictactoe.human-console-player :as human-console-player]
-            [tictactoe.computer-minimax-ab-player :as computer-minimax-ab-player]
-            [tictactoe.console-startup-menu :refer :all]
-            [tictactoe.console-ui :as console-ui]))
+            [tictactoe.tictactoe-console-game.human-console-player :as human-console-player]
+            [tictactoe.tictactoe-core.computer-minimax-ab-player :as computer-minimax-ab-player]
+            [tictactoe.tictactoe-console-game.console-startup-menu :refer :all]
+            [tictactoe.tictactoe-console-game.console-ui :as console-ui]))
 
 (def ^:private human-player
   (partial human-console-player/human-console-player))

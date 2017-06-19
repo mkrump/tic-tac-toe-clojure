@@ -1,4 +1,4 @@
-(ns tictactoe.detect-board-state)
+(ns tictactoe.tictactoe-core.detect-board-state)
 
 (defn- line [a m]
   (for [x (iterate inc 0)] (+ a (* x m))))

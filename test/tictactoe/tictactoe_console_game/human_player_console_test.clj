@@ -1,6 +1,6 @@
-(ns tictactoe.human-player-console-test
+(ns tictactoe.tictactoe-console-game.human-player-console-test
   (:require [clojure.test :refer :all]
-            [tictactoe.human-console-player :refer :all]))
+            [tictactoe.tictactoe-console-game.human-console-player :refer :all]))
 
 (deftest human-player-move-test
   (let [player (human-console-player "X")]

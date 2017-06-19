@@ -1,4 +1,4 @@
-(ns tictactoe.board-translators)
+(ns tictactoe.tictactoe-console-game.board-translators)
 
 (defn ui-mapping [idx] (str (+ idx 1)))
 (defn inverse-ui-mapping [idx] (- (Integer/parseInt idx) 1))

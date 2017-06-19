@@ -1,6 +1,7 @@
-(ns tictactoe.computer-minimax-ab-player
-  (:require [tictactoe.board :as board])
-  (:require [tictactoe.detect-board-state :as detect-board-state]))
+(ns tictactoe.tictactoe-core.computer-minimax-ab-player
+  (:require [tictactoe.tictactoe-core.board :as board])
+  (:require [tictactoe.tictactoe-core.detect-board-state :as detect-board-state]))
+
 (declare ab-pruning minimax-ab-move-score)
 
 (defn- score-function [board player depth]

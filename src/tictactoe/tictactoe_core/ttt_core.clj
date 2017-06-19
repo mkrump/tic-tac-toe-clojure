@@ -1,8 +1,10 @@
-(ns tictactoe.ttt-core
-  (:require [tictactoe.board :as board]
-            [tictactoe.game :as game]
-            [tictactoe.detect-board-state :as detect-board-state]
-            [tictactoe.computer-minimax-ab-player :as computer-minimax-ab-player]))
+(ns tictactoe.tictactoe-core.ttt-core
+  (:require [tictactoe.tictactoe-core.board :as board]
+            [tictactoe.tictactoe-core.detect-board-state :as detect-board-state]
+            [tictactoe.tictactoe-core.computer-minimax-ab-player :as computer-minimax-ab-player]))
+
+(defn switch-player [player]
+  (* -1 player))
 
 ;TODO Add tests
 (def occupied-response-map
@@ -18,7 +20,7 @@
         updated-board (board/make-move board move current-player)
         updated-winner (detect-board-state/winner (:board-contents updated-board) (:gridsize updated-board))
         updated-is-tie (detect-board-state/tie? (:board-contents updated-board) (:gridsize updated-board))
-        updated-current-player (game/switch-player current-player)]
+        updated-current-player (switch-player current-player)]
     {:board          updated-board
      :winner         updated-winner
      :is-tie         updated-is-tie

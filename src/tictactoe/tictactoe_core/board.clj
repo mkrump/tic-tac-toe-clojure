@@ -1,4 +1,4 @@
-(ns tictactoe.board
+(ns tictactoe.tictactoe-core.board
   (:require [clojure.set :as set]
             [clojure.string :as string]))
 

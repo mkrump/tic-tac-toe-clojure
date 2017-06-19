@@ -1,16 +1,17 @@
-(ns tictactoe.game-test
+(ns tictactoe.tictactoe-console-game.game-test
   (:require [clojure.test :refer :all]
             [clojure.string :as string]
-            [tictactoe.board-translators :as board-translators]
-            [tictactoe.game :refer :all]))
+            [tictactoe.tictactoe-console-game.board-translators :as board-translators]
+            [tictactoe.tictactoe-console-game.game :refer :all]))
 
-(deftest square-occupied-player1-test
-  (testing "A switching player 1 results in player 2"
-    (is (= -1 (switch-player 1)))))
-
-(deftest square-occupied-player2-test
-  (testing "A switching player 2 results in player 1"
-    (is (= 1 (switch-player -1)))))
+;TODO move to core
+;(deftest square-occupied-player1-test
+;  (testing "A switching player 1 results in player 2"
+;    (is (= -1 (switch-player 1)))))
+;
+;(deftest square-occupied-player2-test
+;  (testing "A switching player 2 results in player 1"
+;    (is (= 1 (switch-player -1)))))
 
 (deftest end-game-state-player1-wins-test
   (let [game {:board
@@ -50,8 +51,8 @@
   (let [game {:ui->board {"A" 0 "B" 1}
               :ui-board {:board-contents ["A" "B"]}
               :current-player 1
-              :players {1  (tictactoe.human-console-player/human-console-player "X")
-                        -1 (tictactoe.human-console-player/human-console-player "O")}
+              :players {1  (tictactoe.tictactoe-console-game.human-console-player/human-console-player "X")
+                        -1 (tictactoe.tictactoe-console-game.human-console-player/human-console-player "O")}
               :board {:board-contents [0 1]}}]
     (testing "Valid move returns game map reflecting move"
       (with-out-str
