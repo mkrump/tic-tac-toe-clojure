@@ -9,20 +9,15 @@
             [tictactoe.tictactoe-console-game.human-console-player :as human-console-player]))
 
 (defn- get-current-player [game]
-  (let [current-player (:current-player game)]
+  (let [current-player (get-in game [:game-state :current-player])]
     (get-in game [:players current-player])))
 
 (defn- get-current-player-marker [game]
-  (get-in game [:players (game :current-player) :marker]))
+  (get-in game [:players (get-in game [:game-state :current-player]) :marker]))
 
 (defn- request-player-move [game]
   (let [current-player (get-current-player game)]
-    ((:move current-player) (:board game) (:current-player game))))
-
-(defn- translate-move-if-needed [game move]
-  (if (integer? move)
-    move
-    ((:ui->board game) move)))
+    ((:move current-player) (get-in game [:game-state :board]) (get-in game [:game-state :current-player]))))
 
 (defn- generate-player-mapping [players]
   {-1 (get-in players [-1 :marker])
@@ -53,54 +48,50 @@
   (let [board (board/generate-board 3)
         board-players (gen-player-map players player-types)
         player-symbol-mapping (generate-player-mapping board-players)]
+    {:game-state
+              {:board board :current-player -1 :is-tie false :winner 0}
+     :players board-players}))
 
-    {:board                 board
-     :ui->board             ui/ui->board
-     :move                  nil
-     :current-player        -1
-     :players               board-players
-     :player-symbol-mapping player-symbol-mapping
-     :ui-board              (ui/board->ui board player-symbol-mapping)}))
-
-(defn game-over? [game]
+(defn game-over? [game-state]
   (detect-board-state/game-over?
-    (get-in game [:board :board-contents])
-    (get-in game [:board :gridsize])))
-
-(defn update-game [game]
-  (let [{board          :board
-         ui->board      :ui->board
-         move           :move
-         current-player :current-player} game]
-    (-> game
-        (assoc :board (board/make-move board move current-player))
-        (assoc :current-player (ttt-core/switch-player current-player)))))
+    (get-in game-state [:board :board-contents])
+    (get-in game-state [:board :gridsize])))
 
 (defn end-game-state [game]
-  (let [board-contents (get-in game [:board :board-contents])
-        gridsize (get-in game [:board :gridsize])
+  (let [board-contents (get-in game [:game-state :board :board-contents])
+        gridsize (get-in game [:game-state :board :gridsize])
         winner (detect-board-state/winner board-contents gridsize)
         tie (detect-board-state/tie? board-contents gridsize)]
     (cond
       (not= 0 winner) {:winner (get-in game [:players winner :marker])}
       (true? tie) {:tie ""})))
 
+(defn initialize-ui [players initial-game-state]
+  (let [{:keys [board current-player is-tie winner]} initial-game-state
+        board-players (gen-player-map players player-types)
+        player-symbol-mapping (generate-player-mapping board-players)
+        ui-board (ui/board->ui board player-symbol-mapping)]
+    {:ui-board ui-board :board->ui ui/board->ui :player-symbol-mapping player-symbol-mapping}))
 
-(defn move-validation [proposed-move game]
-  (let [{ui-board :ui-board
-         board :board
-         ui->board :ui->board} game]
+(defn- translate-move-if-needed [move]
+  (if (integer? move)
+    move
+    (ui/ui->board move)))
+
+(defn move-validation [proposed-move game ui]
+  (let [ui-board (:ui-board ui)
+        board (get-in game [:game-state :board])]
     (->>
       [proposed-move nil]
       (validation/valid-or-error #(validation/valid-console-ui-choice? % ui-board))
-      (validation/valid-or-error #(validation/open-square? (translate-move-if-needed game %) board)))))
+      (validation/valid-or-error #(validation/open-square? (translate-move-if-needed %) board)))))
 
-
-(defn get-move [game]
+;TODO move to console ui file
+(defn ui-get-move [game ui]
   (loop [current-player-marker (get-current-player-marker game)
          _ (ui/render-move-request-msg current-player-marker)
          proposed-move (request-player-move game)]
-    (let [validation-results (move-validation proposed-move game)]
+    (let [validation-results (move-validation proposed-move game ui)]
       (let [[move error] validation-results]
         (if (nil? move)
           (do
@@ -109,5 +100,5 @@
               current-player-marker
               (ui/render-move-request-msg current-player-marker)
               (request-player-move game)))
-          (assoc game :move move))))))
+          (translate-move-if-needed move))))))
 
