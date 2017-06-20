@@ -1,104 +1,59 @@
 (ns tictactoe.tictactoe-console-game.game
-  (:require [tictactoe.tictactoe-core.board :as board]
-            [tictactoe.tictactoe-core.detect-board-state :as detect-board-state]
-            [tictactoe.tictactoe-core.computer-minimax-ab-player :as computer-minimax-player]
-            [tictactoe.tictactoe-core.ttt-core :as ttt-core]
-            [tictactoe.tictactoe-console-game.user-input-validation :as validation]
-            [tictactoe.tictactoe-console-game.console-ui :as ui]
-            [tictactoe.tictactoe-console-game.board-translators :as board-translators]
-            [tictactoe.tictactoe-console-game.human-console-player :as human-console-player]))
+  (:require [tictactoe.tictactoe-core.ttt-core :as ttt-core]
+            [tictactoe.tictactoe-console-game.console-board-rendering :as console-board-rendering]
+            [tictactoe.tictactoe-console-game.console-ui :as console-ui]))
 
 (defn- get-current-player [game]
   (let [current-player (get-in game [:game-state :current-player])]
     (get-in game [:players current-player])))
 
 (defn- get-current-player-marker [game]
-  (get-in game [:players (get-in game [:game-state :current-player]) :marker]))
-
-(defn- request-player-move [game]
   (let [current-player (get-current-player game)]
-    ((:move current-player) (get-in game [:game-state :board]) (get-in game [:game-state :current-player]))))
+    (:marker current-player)))
+
+(defn- request-player-move [game ui]
+  (let [current-player (get-current-player game)
+        game-state (:game-state game)]
+    ((:move current-player) game-state ui)))
+
+(defn- red-marker [marker]
+  (str "\033[1;31m" marker "\033[0m"))
+
+(defn- green-marker [marker]
+  (str "\033[1;32m" marker "\033[0m"))
 
 (defn- generate-player-mapping [players]
-  {-1 (get-in players [-1 :marker])
-   1  (get-in players [1 :marker])})
-
-(def ^:private human-player
-  (partial human-console-player/human-console-player))
-
-(def ^:private computer-player
-  (partial computer-minimax-player/computer-minimax-ab-player))
-
-(def ^:private player-types
-  {:human-player human-player, :computer-player computer-player})
-
-(defn- create-player [player player-choices]
-  (let [player-type (:player-type player)
-        player-marker (:marker player)]
-    ((player-choices player-type) player-marker)))
-
-(defn- gen-player-map [startup-menu-choices player-types]
-  (clojure.set/rename-keys
-    (into {} (for [[k v] startup-menu-choices]
-               [k (create-player v player-types)]))
-    {1 -1 2 1}))
-
+  {-1 (red-marker (get-in players [-1 :marker]))
+   1  (green-marker (get-in players [1 :marker]))})
 
 (defn initialize-new-game [players]
-  (let [board (board/generate-board 3)
-        board-players (gen-player-map players player-types)
-        player-symbol-mapping (generate-player-mapping board-players)]
-    {:game-state
-              {:board board :current-player -1 :is-tie false :winner 0}
-     :players board-players}))
-
-(defn game-over? [game-state]
-  (detect-board-state/game-over?
-    (get-in game-state [:board :board-contents])
-    (get-in game-state [:board :gridsize])))
+  (let [initial-game-state (ttt-core/initial-game-state 3)]
+    {:game-state initial-game-state :players players}))
 
 (defn end-game-state [game]
-  (let [board-contents (get-in game [:game-state :board :board-contents])
-        gridsize (get-in game [:game-state :board :gridsize])
-        winner (detect-board-state/winner board-contents gridsize)
-        tie (detect-board-state/tie? board-contents gridsize)]
+  (let [game-state (:game-state game)
+        {:keys [winner is-tie]} game-state
+        winner-marker (get-in game [:players winner :marker])]
     (cond
-      (not= 0 winner) {:winner (get-in game [:players winner :marker])}
-      (true? tie) {:tie ""})))
+      (not= 0 winner) {:winner winner-marker}
+      (true? is-tie) {:tie ""})))
 
 (defn initialize-ui [players initial-game-state]
   (let [{:keys [board current-player is-tie winner]} initial-game-state
-        board-players (gen-player-map players player-types)
-        player-symbol-mapping (generate-player-mapping board-players)
-        ui-board (ui/board->ui board player-symbol-mapping)]
-    {:ui-board ui-board :board->ui ui/board->ui :player-symbol-mapping player-symbol-mapping}))
+        player-symbol-mapping (generate-player-mapping players)
+        ui-board (console-board-rendering/board->ui board player-symbol-mapping)]
+    {:ui-board ui-board :player-symbol-mapping player-symbol-mapping}))
 
-(defn- translate-move-if-needed [move]
-  (if (integer? move)
-    move
-    (ui/ui->board move)))
+(defn player-move-prompt [game]
+  (let [current-player-marker (get-current-player-marker game)]
+    (console-ui/render-move-request-msg current-player-marker)))
 
-(defn move-validation [proposed-move game ui]
-  (let [ui-board (:ui-board ui)
-        board (get-in game [:game-state :board])]
-    (->>
-      [proposed-move nil]
-      (validation/valid-or-error #(validation/valid-console-ui-choice? % ui-board))
-      (validation/valid-or-error #(validation/open-square? (translate-move-if-needed %) board)))))
-
-;TODO move to console ui file
-(defn ui-get-move [game ui]
-  (loop [current-player-marker (get-current-player-marker game)
-         _ (ui/render-move-request-msg current-player-marker)
-         proposed-move (request-player-move game)]
-    (let [validation-results (move-validation proposed-move game ui)]
-      (let [[move error] validation-results]
-        (if (nil? move)
-          (do
-            (ui/render-msg error)
-            (recur
-              current-player-marker
-              (ui/render-move-request-msg current-player-marker)
-              (request-player-move game)))
-          (translate-move-if-needed move))))))
-
+(defn make-move [game ui]
+  (loop [proposed-move (request-player-move game ui)]
+    (let [move-status (ttt-core/move-status (:game-state game) proposed-move)]
+      (if (= (:status move-status) :valid-move)
+        proposed-move
+        (do
+          (console-ui/render-msg (:message move-status))
+          (recur
+            (request-player-move game ui)))))))

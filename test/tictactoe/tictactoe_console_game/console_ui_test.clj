@@ -1,31 +1,20 @@
 (ns tictactoe.tictactoe-console-game.console-ui-test
   (:require [clojure.test :refer :all]
+            [clojure.string :as string]
             [tictactoe.tictactoe-console-game.console-ui :refer :all]
-            [tictactoe.tictactoe-console-game.board-translators :as board-translators]))
-
-(deftest render-ui-test
-  (testing "A vector of length n^2 should return a string nxn ttt board"
-    (is (= (str "  X  |     |  O  \n"
-                "- - - - - - - - -\n"
-                "     |  X  |     \n"
-                "- - - - - - - - -\n"
-                "  X  |  X  |  X  \n"
-                "- - - - - - - - -\n")
-           (board->string {:board-contents ["X" " " "O" " " "X" " " "X" "X" "X"] :gridsize 3})))))
+            [tictactoe.tictactoe-console-game.console-board-rendering :as console-board-rendering]
+            [clojure.string :as string]))
 
 (deftest render-board-test
   (testing "render-board should print ui's version of tictactoe board to console"
-    (let [green-x (board-translators/green-marker "X")
-          red-o (board-translators/red-marker "O")]
-        (is (= (str "  "green-x"  |  2  |  " red-o "  \n"
-                    "- - - - - - - - -\n"
-                    "  4  |  5  |  6  \n"
-                    "- - - - - - - - -\n"
-                    "  7  |  8  |  " green-x "  \n"
-                    "- - - - - - - - -\n")
-               (with-out-str
-                 (render-board {:board-contents [1 0 -1 0 0 0 0 0 1] :gridsize 3} {1 "X" -1 "O"})))))))
-
+    (is (= (str "  X  |  2  |  O  \n"
+                "- - - - - - - - -\n"
+                "  4  |  5  |  6  \n"
+                "- - - - - - - - -\n"
+                "  7  |  8  |  X  \n"
+                "- - - - - - - - -\n")
+           (with-out-str
+             (render-board {:board-contents [1 0 -1 0 0 0 0 0 1] :gridsize 3} {1 "X" -1 "O"}))))))
 
 (deftest clear-screen-test
   (testing "print ANSI clear screen escape code '\033c' "
@@ -42,3 +31,35 @@
 (deftest render-game-over-msg-tie-test
   (testing "If game ends in tie should display tie msg"
     (is (= "Tie game!\n" (with-out-str (render-game-over-msg {:tie ""}))))))
+
+(deftest valid-ui-choice-test
+  (testing "Valid ui choices should return the params and nil error message"
+    (is (= {:status :valid-move, :message "Success"}
+           (valid-console-ui-choice? "A" {:board-contents ["A" "B" "C"]})))))
+
+(deftest invalid-ui-choice-test
+  (testing "Invalid choices should return nil and error message"
+    (is (= {:status :choice-not-available :message "Choice not available."}
+           (valid-console-ui-choice? "R" {:board-contents ["A" "B" "C"]})))))
+
+(deftest get-console-input
+  (testing "Valid input should return move"
+    (with-out-str
+      (let [valid-inputs "1\n"
+            output (with-in-str valid-inputs (get-console-move {} {:ui-board {:board-contents ["1" "2"]}}))]
+        (is (= output 0))))))
+
+(deftest get-console-input
+  (testing "Bad input should re-prompt user"
+    (let [inputs "1000\n1\n"
+          output
+          (with-out-str
+            (with-in-str inputs (get-console-move {} {:ui-board {:board-contents ["1" "2"]}})))]
+      (is (= true (string/includes? output "Choice not available."))))))
+
+(deftest get-console-input
+  (testing "Bad input should re-prompt user"
+    (with-out-str
+      (let [valid-inputs "1000\n1\n"
+            output (with-in-str valid-inputs (get-console-move {} {:ui-board {:board-contents ["1" "2"]}}))]
+        (is (= output 0))))))
