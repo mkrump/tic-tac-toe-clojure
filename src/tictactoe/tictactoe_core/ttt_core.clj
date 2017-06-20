@@ -6,10 +6,14 @@
 (defn switch-player [player]
   (* -1 player))
 
+(def occupied-response-map
+  {nil   {:status :out-of-range :message "Out of range"}
+   false {:status :valid-move :message "Success"}
+   true  {:status :occupied :message "Square occupied"}})
+
 (defn move-status [game-state move]
   (let [{:keys [board winner is-tie current-player]} game-state
-         occupied (board/square-occupied? board move)
-         occupied-response-map {nil :out-of-range false :valid-move true :occupied}]
+        occupied (board/square-occupied? board move)]
     (occupied-response-map occupied)))
 
 (defn update-game-state [game-state move]
@@ -23,9 +27,9 @@
      :is-tie         updated-is-tie
      :current-player updated-current-player}))
 
-(defn make-computer-move [game-state]
+(defn get-computer-move [game-state]
   (let [{:keys [board winner is-tie current-player]} game-state
-        move (computer-minimax-ab-player/minimax-move board current-player)
-        updated-game-state (update-game-state game-state move)]
-    updated-game-state))
+        move (computer-minimax-ab-player/minimax-move board current-player)]
+    move))
+
 
