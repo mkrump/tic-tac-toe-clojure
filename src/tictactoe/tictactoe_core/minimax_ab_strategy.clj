@@ -42,5 +42,3 @@
         max-score ((apply max-key #(get % 1) moves) 1)
         best-moves (filter #(= max-score (get % 1)) moves)]
     ((rand-nth best-moves) 0)))
-
-

@@ -5,10 +5,8 @@
 (defn square-occupied? [board square]
   (let [{board-contents :board-contents} board
         board-square (get board-contents square)]
-    (if (nil? board-square)
-      nil
-      (or (= 1 board-square)
-          (= -1 board-square)))))
+    (when-not (nil? board-square)
+      (or (= 1 board-square) (= -1 board-square)))))
 
 (defn open-squares [board]
   (keep-indexed #(if (zero? %2) %1) (:board-contents board)))
@@ -19,4 +17,3 @@
 (defn generate-board [gridsize]
   {:board-contents (vec (repeat (* gridsize gridsize) 0))
    :gridsize       gridsize})
-

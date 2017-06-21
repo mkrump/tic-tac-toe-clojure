@@ -32,4 +32,3 @@
   (testing "A new board should consist of a vector of zeros length n^2"
     (let [{board :board-contents} (generate-board 4)]
       (is (and (= 16 (count board)) (every? zero? board))))))
-

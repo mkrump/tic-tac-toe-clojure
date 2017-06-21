@@ -1,16 +1,16 @@
 (ns tictactoe.tictactoe-console-game.console-board-rendering
   (:require [clojure.string :as string]))
 
-(defn ui-mapping [idx] (str (+ idx 1)))
+(defn ui-mapping [idx] (str (inc idx)))
 
-(defn inverse-ui-mapping [idx] (- (Integer/parseInt idx) 1))
+(defn inverse-ui-mapping [idx] (dec (Integer/parseInt idx)))
 
 (defn get-marker [square-contents player-mapping]
   (player-mapping square-contents))
 
 (defn apply-ui-mapping [board-contents idx player-mapping]
   (let [square-contents (get board-contents idx)]
-    (cond (= 0 square-contents) (ui-mapping idx)
+    (cond (zero? square-contents) (ui-mapping idx)
           (= -1 square-contents) (get-marker square-contents player-mapping)
           (= 1 square-contents) (get-marker square-contents player-mapping))))
 
@@ -25,7 +25,7 @@
        (render-row-separator row)))
 
 (defn- lazy-seq->string [lz-seq]
-  (apply str lz-seq))
+  (string/join lz-seq))
 
 (defn board->ui [board player-symbol-mapping]
   (let [{board-contents :board-contents} board

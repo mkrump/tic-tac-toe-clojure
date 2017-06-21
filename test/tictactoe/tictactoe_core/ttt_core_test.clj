@@ -50,13 +50,13 @@
         :current-player -1
         :is-tie         false
         :winner         0
-        :game-over false}
+        :game-over      false}
        expected-game-state
        {:board          {:board-contents [-1 1 -1 0 0 0 0 0 0] :gridsize 3}
         :current-player 1
         :is-tie         false
         :winner         0
-        :game-over false}]
+        :game-over      false}]
       (is (= expected-game-state (update-game-state current-game-state 0))))))
 
 (deftest update-game-state-invalid-test
@@ -67,13 +67,13 @@
         :current-player 1
         :is-tie         false
         :winner         0
-        :game-over false}
+        :game-over      false}
        expected-game-state
        {:board          {:board-contents [1 1 1 0 0 0 0 0 0] :gridsize 3}
         :current-player -1
         :is-tie         false
         :winner         1
-        :game-over true}]
+        :game-over      true}]
       (is (= expected-game-state (update-game-state current-game-state 0))))))
 
 (deftest computer-move-test
@@ -84,5 +84,5 @@
         :current-player 1
         :is-tie         false
         :winner         0
-        :game-over false}]
+        :game-over      false}]
       (is (= 4 (get-computer-move current-game-state))))))

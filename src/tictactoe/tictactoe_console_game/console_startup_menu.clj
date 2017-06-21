@@ -36,7 +36,7 @@
          " marker:")))
 
 (defn get-opponent-marker [players player-number]
-  (let [opponent (+ 1 (mod player-number 2))]
+  (let [opponent (inc (mod player-number 2))]
     (get-in players [opponent :marker])))
 
 (defn choose-player-type-menu [player-number]

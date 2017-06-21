@@ -10,13 +10,13 @@
             A choice of 1 should correspond to a human player
             A choice of 2 should correspond to a computer player"
     (let [expected-flow
-           (with-out-str
-             (console-ui/clear-screen)
-             (select-player-message 1))]
+          (with-out-str
+            (console-ui/clear-screen)
+            (select-player-message 1))]
       (is (= expected-flow
-                (with-out-str
-                   (with-in-str "2"
-                          (choose-player-type-menu 1)))))
+             (with-out-str
+               (with-in-str "2"
+                            (choose-player-type-menu 1)))))
       (with-out-str
         (let [choice (with-in-str "1" (choose-player-type-menu 1))]
           (is (= :human-player choice))))
@@ -28,16 +28,16 @@
 (deftest choose-player-type-menu-invalid-test
   (testing "An invalid choice should reprompt the user to choose again"
     (let [expected-flow
-           (with-out-str
-             (console-ui/clear-screen)
-             (select-player-message 1)
-             (invalid-choice-message)
-             (console-ui/clear-screen)
-             (select-player-message 1))]
+          (with-out-str
+            (console-ui/clear-screen)
+            (select-player-message 1)
+            (invalid-choice-message)
+            (console-ui/clear-screen)
+            (select-player-message 1))]
       (is (= expected-flow
-                (with-out-str
-                   (with-in-str "10\n1\n"
-                          (choose-player-type-menu 1))))))))
+             (with-out-str
+               (with-in-str "10\n1\n"
+                            (choose-player-type-menu 1))))))))
 ;
 (deftest choose-player-marker-menu-valid-test
   (testing "A Valid choice should not result in reprompting."
@@ -48,7 +48,7 @@
       (is (= expected-flow
              (with-out-str
                (with-in-str "X\n"
-                 (choose-marker-type-menu players 1))))))))
+                            (choose-marker-type-menu players 1))))))))
 
 (deftest choose-player-marker-menu-invalid-test
   (testing "A Valid choice should not result in reprompting."
@@ -62,7 +62,7 @@
       (is (= expected-flow
              (with-out-str
                (with-in-str "?\nX\n"
-                 (choose-marker-type-menu players 1))))))))
+                            (choose-marker-type-menu players 1))))))))
 
 (deftest choose-player-marker-menu-marker-already-chosen-test
   (testing "If another player has already chosen a marker"
@@ -76,8 +76,8 @@
       (is (= expected-flow
              (with-out-str
                (with-in-str "X\nO\n"
-                 (choose-marker-type-menu
-                   {1 {:player-type :human-player, :marker "X"}, 2 {:player-type :computer-player}} 2))))))))
+                            (choose-marker-type-menu
+                              {1 {:player-type :human-player, :marker "X"}, 2 {:player-type :computer-player}} 2))))))))
 
 (deftest run-startup-menus-test
   (testing "If another player has already chosen a marker"
@@ -97,7 +97,6 @@
             output (with-in-str valid-inputs (startup-menu))]
         (is (= '(-1 1) (keys output)))
         (is (= "X" (get-in output [-1 :marker])))
-        (is (= (contains? (output -1)  :move)))
+        (is (= (contains? (output -1) :move)))
         (is (= "O" (get-in output [1 :marker])))
-        (is (= (contains? (output 1)  :move)))))))
-
+        (is (= (contains? (output 1) :move)))))))
