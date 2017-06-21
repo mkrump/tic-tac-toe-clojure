@@ -5,5 +5,5 @@
   :dependencies [[org.clojure/clojure "1.8.0"]]
   :main ^:skip-aot tictactoe.main
   :profiles {:uberjar {:aot :all}}
-  :deploy-repositories [["releases" :clojars :creds :gpg]
-                        ["snapshots" :clojars :creds :gpg]])
+  :deploy-repositories [["releases" :clojars {:creds :gpg}]
+                        ["snapshots" :clojars {:creds :gpg}]])
