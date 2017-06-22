@@ -5,5 +5,7 @@
   :dependencies [[org.clojure/clojure "1.8.0"]]
   :main ^:skip-aot tictactoe.main
   :profiles {:uberjar {:aot :all}}
-  :deploy-repositories [["releases" :clojars {:creds :gpg}]
-                        ["snapshots" :clojars {:creds :gpg}]])
+  :repositories [["snapshots"
+                  {:url "https://clojars.org/repo/"
+                   :username :env/cj_username
+                   :password :env/cj_password}]])
