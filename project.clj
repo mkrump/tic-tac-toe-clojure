@@ -1,4 +1,4 @@
-(defproject org.clojars.mkrump/tictactoe "0.1.1-SNAPSHOT"
+(defproject org.clojars.mkrump/tictactoe "0.1.1"
   :description "TicTacToe"
   :license {:name "MIT"}
   :url "https://github.com/mkrump/tic-tac-toe-clojure"
@@ -7,5 +7,5 @@
   :profiles {:uberjar {:aot :all}}
   :repositories [["snapshots"
                   {:url "https://clojars.org/repo/"
-                   :username :env/cj_username
-                   :password :env/cj_password}]])
+                   :username [:gpg :env/cj_username]
+                   :password [:gpg :env/cj_password]}]])
