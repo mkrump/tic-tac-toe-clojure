@@ -1,5 +1,5 @@
 (defproject org.clojars.mkrump/tictactoe "0.1.3-SNAPSHOT"
-  :description "TicTacToe"
+  :description "Console Tic-tac-toe game"
   :license {:name "MIT"}
   :url "https://github.com/mkrump/tic-tac-toe-clojure"
   :dependencies [[org.clojure/clojure "1.8.0"]]
