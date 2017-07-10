@@ -1,4 +1,4 @@
-(ns tictactoe.detect-board-state)
+(ns tictactoe.tictactoe-core.detect-board-state)
 
 (defn- line [a m]
   (for [x (iterate inc 0)] (+ a (* x m))))
@@ -37,27 +37,23 @@
 
 (defn winner [board gridsize]
   (loop [board board winning-positions (winning-positions gridsize)]
-     (let [board-values (select-values board (first winning-positions))]
-        (cond
-          (empty? winning-positions) 0
-          (= gridsize (sum board-values)) 1
-          (= (- gridsize) (sum board-values)) -1
-          :else (recur board (rest winning-positions))))))
+    (let [board-values (select-values board (first winning-positions))]
+      (cond
+        (empty? winning-positions) 0
+        (= gridsize (sum board-values)) 1
+        (= (- gridsize) (sum board-values)) -1
+        :else (recur board (rest winning-positions))))))
 
 (defn- board-full? [board]
   (every? (complement zero?) board))
 
 (defn tie? [board gridsize]
   (and (board-full? board)
-       (= 0 (winner board gridsize))))
+       (zero? (winner board gridsize))))
 
 (defn game-over? [board gridsize]
   (if (or
         (not= 0 (winner board gridsize))
         (tie? board gridsize))
-      true
-      false))
-
-
-
-
+    true
+    false))

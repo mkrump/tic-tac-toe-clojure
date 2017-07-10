@@ -1,7 +1,6 @@
-(ns tictactoe.console-startup-menu
-  (:require [tictactoe.human-console-player :as human-console-player]
-            [tictactoe.computer-minimax-ab-player :as computer-minimax-player]
-            [tictactoe.console-ui :as console-ui]))
+(ns tictactoe.tictactoe-console-game.console-startup-menu
+  (:require [tictactoe.tictactoe-console-game.console-ui :as console-ui]
+            [tictactoe.tictactoe-core.ttt-core :as ttt-core]))
 
 (defn- upcase-letter? [s]
   (not (nil? (re-find #"^[A-Z]$" s))))
@@ -15,29 +14,29 @@
   (= marker-choice opponent-marker))
 
 (defn invalid-choice-message []
-  (println "Not a Valid choice. Please choose again.")
+  (console-ui/render-msg "Not a Valid choice. Please choose again.")
   (console-ui/ui-pause 1000)
   (console-ui/clear-screen))
 
 (defn marker-already-chosen-message []
-  (println "Marker already chosen. Please choose another marker.")
+  (console-ui/render-msg "Marker already chosen. Please choose another marker.")
   (console-ui/ui-pause 1000)
   (console-ui/clear-screen))
 
 (defn select-player-message [player-number]
-  (println
+  (console-ui/render-msg
     (str "Select Player " player-number "'s player type from the list below:\n"
          "1. Human\n"
          "2. Computer\n")))
 
 (defn choose-marker-message [player-number]
-  (println
+  (console-ui/render-msg
     (str "Select a letter to use as "
          "Player " player-number "'s"
          " marker:")))
 
 (defn get-opponent-marker [players player-number]
-  (let [opponent (+ 1 (mod player-number 2))]
+  (let [opponent (inc (mod player-number 2))]
     (get-in players [opponent :marker])))
 
 (defn choose-player-type-menu [player-number]
@@ -77,7 +76,27 @@
         (assoc-in players [2 :player-type] (choose-player-type-menu 2))
         (assoc-in players [2 :marker] (choose-marker-type-menu players 2))))
 
+(defn- human-player [marker]
+  {:marker marker :move console-ui/get-console-move})
+
+(defn- computer-player [marker]
+  {:marker marker :move ttt-core/get-computer-move})
+
+(def ^:private player-types
+  {:human-player human-player, :computer-player computer-player})
+
+(defn- create-player [player player-choices]
+  (let [player-type (:player-type player)
+        player-marker (:marker player)]
+    ((player-choices player-type) player-marker)))
+
+(defn- gen-player-map [startup-menu-choices player-types]
+  (clojure.set/rename-keys
+    (into {} (for [[k v] startup-menu-choices]
+               [k (create-player v player-types)]))
+    {1 -1 2 1}))
+
 (defn startup-menu []
-  (let [players (run-startup-menus)]
+  (let [player-choices (run-startup-menus)]
     (console-ui/clear-screen)
-    players))
+    (gen-player-map player-choices player-types)))
